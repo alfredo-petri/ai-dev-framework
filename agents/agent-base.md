@@ -1,23 +1,23 @@
-# change-orchestration-base
+# agent-base
 
-Base compartilhada canônica para skills de criação, feature, melhoria e correção. Lida por todos os orchestrators antes do arquivo específico de cada skill.
+Base compartilhada canônica para todos os agents deste framework. Lida por todos os agents antes do arquivo específico de cada um.
 
 ## Ordem de precedência
 
 1. `constitution.md`
 2. `agents.md`
-3. `agents/README.md`
-4. Agente canônico aplicável
+3. `sub-agents/README.md`
+4. Sub-agent canônico aplicável
 5. Arquivos de contexto do domínio afetado
-6. Skill específica
+6. Agent específico
 7. Esta base
 
 ## Leitura obrigatória
 
 1. `constitution.md`
 2. `agents.md`
-3. `agents/README.md`
-4. Skill específica
+3. `sub-agents/README.md`
+4. Agent específico
 5. Apenas arquivos de contexto do domínio necessários
 6. Arquivos citados pelo usuário
 
@@ -44,27 +44,27 @@ Se o repositório pode responder, não pergunte.
 - Toda mudança relevante termina com testes e auditoria final
 - Toda mudança de componente/feature evita regressão, side effect ou alteração silenciosa de contrato
 
-## Regras de testes
+## Skills disponíveis
 
-- Use o framework de testes configurado no projeto
-- Cubra o que mudou com combinação mínima suficiente de testes
-- Valide comportamento, não trivialidade de implementação
-- Pare e pergunte antes de criar ou trocar infraestrutura de testes
+Agents podem invocar qualquer skill em `skills/`:
+- `skills/read-project-context.md`
+- `skills/build-scope-map.md`
+- `skills/collect-visual-references.md`
+- `skills/build-risk-matrix.md`
+- `skills/run-audit-checklist.md`
+- `skills/classify-change.md`
+- `skills/document-aicontext.md`
+- `skills/write-tests.md`
 
-## Regras de auditoria final
+## Tools disponíveis
 
-Aplique quality-guardian como gate bloqueante. Verifique no mínimo:
-- Regressão funcional
-- Edge cases relevantes
-- Side effects
-- Preservação de contratos
-- Aderência ao `agents.md`
-- Aderência à `constitution.md`
-- Aderência ao padrão do módulo local
+Agents podem invocar qualquer tool em `tools/`:
+- `tools/inspect-files.md`
+- `tools/search-codebase.md`
+- `tools/run-command.md`
+- `tools/emit-structured-output.md`
 
-## Uso de agentes
-
-Pipeline base:
+## Pipeline base de sub-agents
 
 1. `scope-mapper` — quando escopo difuso, cruzando módulos ou contratos
 2. `style-reference-scout` — quando nova UI ou referências visuais citadas
@@ -79,4 +79,4 @@ Regras:
 
 ## Regra para diferentes ferramentas
 
-Se a ferramenta suporta subagentes reais, delegue os estágios aos agentes correspondentes. Se não, execute a mesma ordem no mesmo fluxo usando cada arquivo de agente canônico como checklist operacional. Não dependa de sintaxe proprietária.
+Se a ferramenta suporta sub-agents reais, delegue os estágios aos sub-agents correspondentes. Se não, execute a mesma ordem no mesmo fluxo usando cada arquivo de sub-agent canônico como checklist operacional. Não dependa de sintaxe proprietária.

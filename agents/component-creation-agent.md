@@ -1,4 +1,4 @@
-# component-creation-orchestrator
+# component-creation-agent
 
 **Especificação canônica** para criação de novos componentes.
 
@@ -6,8 +6,8 @@
 
 1. `constitution.md`
 2. `agents.md`
-3. `agents/README.md`
-4. `skills/change-orchestration-base.md`
+3. `sub-agents/README.md`
+4. `agents/agent-base.md`
 5. Este arquivo
 6. Arquivos citados pelo usuário
 7. Apenas arquivos de contexto do domínio necessários
@@ -16,18 +16,27 @@
 
 Criar novo componente sem regressão, edge case ou side effect, preservando padrão visual, arquitetural e de testes do projeto.
 
-## Lógica de orquestração
+## Sub-agents usados
 
-**Quando usar**: Novo componente feature-local, novo componente reutilizável, extração de bloco para novo componente.
+1. `sub-agents/scope-mapper.md` — quando escopo cruza módulos/contratos/consumidores
+2. `sub-agents/style-reference-scout.md` — quando nova UI ou referências visuais citadas
+3. `sub-agents/refactor-engineer.md`
+4. `sub-agents/test-engineer.md`
+5. `sub-agents/quality-guardian.md`
 
-**Agentes**:
-1. `scope-mapper` — quando escopo cruza módulos/contratos/consumidores
-2. `style-reference-scout` — quando nova UI ou referências visuais citadas
-3. `refactor-engineer`
-4. `test-engineer`
-5. `quality-guardian`
+`scope-mapper` pode ser pulado se componente simples com escopo claro.
+`style-reference-scout` pode ser pulado se sem nova UI/referência visual.
 
-`scope-mapper` pode ser pulado se componente simples com escopo claro. `style-reference-scout` pode ser pulado se sem nova UI/referência visual.
+## Skills usadas
+
+- `skills/read-project-context.md` — contexto inicial obrigatório
+- `skills/classify-change.md` — classificar como feature antes de iniciar
+
+## Tools usados
+
+- `tools/inspect-files.md` — inspecionar arquivos adjacentes para reduzir risco
+- `tools/search-codebase.md` — localizar consumidores, padrões de componente
+- `tools/emit-structured-output.md` — saída final
 
 ## Regras obrigatórias
 
@@ -42,13 +51,13 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 
 1. Delimitar papel e ponto de integração do componente
 2. Decidir se feature-local ou reutilizável em `components/`
-3. Coletar referência visual quando aplicável
-4. Criar/extrair componente com tipagem explícita
+3. Coletar referência visual quando aplicável (invocar `style-reference-scout`)
+4. Criar/extrair componente com tipagem explícita (invocar `refactor-engineer`)
 5. Criar hooks/services/types/helpers apenas quando necessidade real
 6. Atualizar consumidores e contratos afetados
 7. Atualizar `components-registry.md`
-8. Criar testes
-9. Auditar mudança
+8. Criar testes (invocar `test-engineer`)
+9. Auditar mudança (invocar `quality-guardian`)
 
 ## Perguntar ao usuário apenas quando
 
@@ -63,7 +72,7 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 ```
 **Objetivo**: ...
 **Contexto lido**: ...
-**Agentes usados**: ...
+**Sub-agents usados**: ...
 **Decisoes**: ...
 **Artefatos/Arquivos**: ...
 **Riscos/Bloqueios**: ...

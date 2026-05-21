@@ -1,105 +1,61 @@
-# Agent Package — Overview
+# Agents — Visão Geral
 
-Pacote canônico de agentes. Neutro de ferramenta e modelo — funciona com qualquer LLM que suporte instruções estruturadas.
+Pacote canônico de agents (orchestrators). Neutro de ferramenta e modelo.
+
+Agents têm goals de alto nível e orquestram sub-agents, skills e tools para atingi-los. São o ponto de entrada para qualquer tipo de mudança no projeto.
 
 ## Ordem de verdade
 
 1. `constitution.md`
 2. `agents.md`
-3. Arquivo canônico do agente
-4. Arquivos de contexto de domínio aplicáveis
+3. `agents/agent-base.md`
+4. Arquivo canônico do agent
+5. Arquivos de contexto de domínio aplicáveis
 
-## Agentes disponíveis
+## Agents disponíveis
 
-| Agente | Papel | Quando usar |
-|--------|-------|-------------|
-| `scope-mapper` | Mapeia escopo, contratos e arquivos antes de refatorar/testar/auditar | Quando a mudança cruza módulos, features ou tem escopo difuso |
-| `style-reference-scout` | Coleta referências visuais antes de criar nova UI | Quando nova superfície visual com referências a componentes existentes |
-| `refactor-engineer` | Refatora de forma conservadora com componentização e extração | Quando código tem múltiplas responsabilidades, lógica misturada com UI ou acoplamento real |
-| `test-engineer` | Cria cobertura por matriz de risco | Após refatoração, feature ou bugfix com lógica relevante |
-| `quality-guardian` | Auditor bloqueante de regressões, edge cases e violações de regra | Ao final de qualquer mudança real de código |
+| Agent | Objetivo | Quando usar |
+|-------|----------|-------------|
+| `bugfix-agent` | Corrigir comportamento incorreto com mudança mínima segura | Bug confirmado com comportamento esperado claro |
+| `component-creation-agent` | Criar novo componente preservando padrão visual e arquitetural | Novo componente feature-local ou reutilizável |
+| `component-refactor-agent` | Refatorar com componentização, separação lógica-UI e preservação de contratos | Componente com múltiplas responsabilidades ou lógica mista |
+| `feature-module-agent` | Criar feature/módulo com disciplina de spec, plano e relatório | Feature nova com escopo e contratos a definir |
+| `improvement-agent` | Melhorar componente/feature/módulo sem regressão ou desvio de padrão | Melhoria incremental em código existente |
 
-## Contrato de saída comum
-
-Todos os agentes respondem com:
+## Hierarquia de invocação
 
 ```
-**Objetivo**: O que foi feito
-**Contexto lido**: Arquivos e documentos consultados
-**Decisoes**: Escolhas técnicas e justificativas
-**Artefatos/Arquivos**: Arquivos criados, alterados ou analisados
-**Riscos/Bloqueios**: Ambiguidades, dependências faltantes, aprovação necessária
-**Proximos passos**: O que o próximo agente ou o usuário deve fazer
+Agent (goal de alto nível)
+  ├── invoca Sub-agents (sub-agents/)
+  │     └── usam Skills (skills/) e Tools (tools/)
+  ├── usa Skills (skills/) diretamente quando aplicável
+  └── usa Tools (tools/) diretamente quando aplicável
 ```
 
-## Pipeline recomendado
+## Pipeline base de sub-agents
 
 ```
 scope-mapper (condicional)
   ↓
 style-reference-scout (condicional)
   ↓
-refactor-engineer
+refactor-engineer (obrigatório em código)
   ↓
-test-engineer
+test-engineer (obrigatório em código)
   ↓
-quality-guardian (gate final bloqueante)
+quality-guardian (gate final obrigatório)
 ```
 
-### Quando usar cada agente
+## Contrato de saída comum
 
-**scope-mapper**: Escopo difuso, mudança cruzando módulos/contratos, risco de tocar UI e API simultaneamente, contratos sensíveis.
+Todos os agents respondem com:
 
-**style-reference-scout**: Nova superfície visual, referências citadas pelo usuário, risco de divergência do padrão visual local.
-
-**refactor-engineer**: Toda mudança real de código que envolva estruturação, extração ou componentização.
-
-**test-engineer**: Toda mudança relevante de código — sem exceção.
-
-**quality-guardian**: Gate final obrigatório em toda mudança real de código.
-
-## Handoffs recomendados
-
-### scope-mapper → refactor-engineer
-- Escopo técnico sugerido
-- Limites claros
-- Contratos que não podem mudar
-- Contextos que o próximo agente precisa abrir
-
-### scope-mapper → style-reference-scout
-- Arquivos de referência visual identificados
-- Padrões suspeitos de divergência
-
-### style-reference-scout → refactor-engineer
-- Componentes de referência observados
-- Classes e utilitários recorrentes
-- Tokens e variáveis de tema
-- Padrões de composição e espaçamento
-- Divergências a evitar
-
-### refactor-engineer → test-engineer
-- Arquivos alterados
-- Fluxos e estados que devem permanecer idênticos
-- Novos componentes/hooks/services que precisam de cobertura
-- Cenários de maior risco
-
-### test-engineer → quality-guardian
-- Testes criados
-- Cenários cobertos
-- Cenários não cobertos
-- Dependências e mocks usados
-- Comandos executados e resultados observados
-
-## Cenários reais
-
-### Componente grande com lógica mista
-Pipeline: `refactor-engineer → test-engineer → quality-guardian`
-
-### Nova UI com referências existentes
-Pipeline: `style-reference-scout → refactor-engineer → test-engineer → quality-guardian`
-
-### Route handler com transformações e validação
-Pipeline: `scope-mapper → refactor-engineer → test-engineer → quality-guardian`
-
-### Refatoração localizada e clara
-Pipeline: `refactor-engineer → test-engineer → quality-guardian`
+```
+**Objetivo**: O que foi feito
+**Contexto lido**: Arquivos e documentos consultados
+**Sub-agents usados**: Quais sub-agents foram invocados e quais foram pulados e por quê
+**Decisoes**: Escolhas técnicas e justificativas
+**Artefatos/Arquivos**: Arquivos criados, alterados ou analisados
+**Riscos/Bloqueios**: Ambiguidades, dependências faltantes, aprovação necessária
+**Proximos passos**: O que o usuário deve fazer
+```

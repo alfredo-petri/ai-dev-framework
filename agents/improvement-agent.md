@@ -1,4 +1,4 @@
-# improvement-orchestrator
+# improvement-agent
 
 **Especificação canônica** para melhorias em componente, feature ou módulo existente.
 
@@ -6,8 +6,8 @@
 
 1. `constitution.md`
 2. `agents.md`
-3. `agents/README.md`
-4. `skills/change-orchestration-base.md`
+3. `sub-agents/README.md`
+4. `agents/agent-base.md`
 5. Este arquivo
 6. Arquivos citados pelo usuário
 7. Apenas arquivos de contexto do domínio necessários
@@ -16,15 +16,25 @@
 
 Melhorar componente, feature ou módulo existente sem desviar do padrão predefinido, sem regressão funcional ou side effects indesejados.
 
-## Lógica de orquestração
+## Sub-agents usados
 
-**Agentes**:
-1. `scope-mapper` — quando escopo difuso ou cruzando contratos
-2. `refactor-engineer`
-3. `test-engineer`
-4. `quality-guardian`
+1. `sub-agents/scope-mapper.md` — quando escopo difuso ou cruzando contratos
+2. `sub-agents/refactor-engineer.md`
+3. `sub-agents/test-engineer.md`
+4. `sub-agents/quality-guardian.md`
 
 Não use `style-reference-scout` por padrão.
+
+## Skills usadas
+
+- `skills/read-project-context.md` — contexto inicial obrigatório
+- `skills/classify-change.md` — classificar natureza da melhoria antes de iniciar
+
+## Tools usados
+
+- `tools/inspect-files.md` — inspecionar código e arquivos adjacentes
+- `tools/search-codebase.md` — localizar padrão atual e consumidores
+- `tools/emit-structured-output.md` — saída final
 
 ## Regras obrigatórias
 
@@ -46,7 +56,7 @@ Não use `style-reference-scout` por padrão.
 ```
 **Objetivo**: ...
 **Contexto lido**: ...
-**Agentes usados**: ...
+**Sub-agents usados**: ...
 **Decisoes**: ...
 **Artefatos/Arquivos**: ...
 **Riscos/Bloqueios**: ...

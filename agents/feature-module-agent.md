@@ -1,4 +1,4 @@
-# feature-module-orchestrator
+# feature-module-agent
 
 **Especificação canônica** para criação de nova feature ou módulo.
 
@@ -6,8 +6,8 @@
 
 1. `constitution.md`
 2. `agents.md`
-3. `agents/README.md`
-4. `skills/change-orchestration-base.md`
+3. `sub-agents/README.md`
+4. `agents/agent-base.md`
 5. Este arquivo
 6. Arquivos citados pelo usuário
 7. Apenas arquivos de contexto do domínio necessários
@@ -27,7 +27,32 @@ Sempre criar pasta `specs/[###-slug]/` com:
 - `tasks.md`
 - `report.md`
 
-## Lógica de orquestração
+## Sub-agents usados
+
+### Fase de preparação documental
+
+Nenhum sub-agent. O agent resolve lacunas com o repositório primeiro.
+
+### Fase de implementação (após aprovação)
+
+1. `sub-agents/scope-mapper.md` — quando escopo cruza módulos/contratos/integrações
+2. `sub-agents/style-reference-scout.md` — quando nova superfície visual ou referências citadas
+3. `sub-agents/refactor-engineer.md`
+4. `sub-agents/test-engineer.md`
+5. `sub-agents/quality-guardian.md`
+
+## Skills usadas
+
+- `skills/read-project-context.md` — contexto inicial obrigatório
+- `skills/classify-change.md` — classificar como feature antes de iniciar
+- `skills/document-aicontext.md` — documentar feature em `aicontext/` ao final
+
+## Tools usados
+
+- `tools/inspect-files.md` — inspecionar repositório e contextos de domínio
+- `tools/emit-structured-output.md` — saída final
+
+## Workflow
 
 ### Preparação documental
 
@@ -40,12 +65,9 @@ Sempre criar pasta `specs/[###-slug]/` com:
 
 ### Implementação após aprovação
 
-**Agentes**:
-1. `scope-mapper` — quando escopo cruza módulos/contratos/integrações
-2. `style-reference-scout` — quando nova superfície visual ou referências citadas
-3. `refactor-engineer`
-4. `test-engineer`
-5. `quality-guardian`
+7. Invocar sub-agents na ordem definida
+8. Invocar `document-aicontext` — registrar feature entregue
+9. Atualizar `report.md` com o que foi realmente entregue
 
 ## Regras obrigatórias
 
@@ -69,7 +91,7 @@ Sempre criar pasta `specs/[###-slug]/` com:
 ```
 **Objetivo**: ...
 **Contexto lido**: ...
-**Agentes usados**: ...
+**Sub-agents usados**: ...
 **Decisoes**: ...
 **Artefatos/Arquivos**: ...
 **Riscos/Bloqueios**: ...
