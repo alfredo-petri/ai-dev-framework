@@ -1,68 +1,8 @@
 # ai-dev-framework
 
-Framework portátil de agents, sub-agents, skills e tools para desenvolvimento assistido por IA. Neutro de stack, modelo e ferramenta — aplique a qualquer projeto web/fullstack.
+Framework portátil de agents, sub-agents, skills e tools para desenvolvimento assistido por IA. Neutro de stack, modelo e ferramenta — aplique a qualquer projeto web/fullstack com qualquer AI agent CLI.
 
-## Estrutura
-
-```
-ai-dev-framework/
-├── agents.md                        # Guia operacional para agents neste repositório
-├── constitution.md                  # Princípios de engenharia permanentes
-├── components-registry.md           # Registro de componentes reutilizáveis
-├── agents/
-│   ├── README.md                    # Visão geral dos agents (orchestrators)
-│   ├── agent-base.md                # Base compartilhada para todos os agents
-│   ├── bugfix-agent.md
-│   ├── component-creation-agent.md
-│   ├── component-refactor-agent.md
-│   ├── feature-module-agent.md
-│   └── improvement-agent.md
-├── sub-agents/
-│   ├── README.md                    # Visão geral dos sub-agents (especialistas)
-│   ├── scope-mapper.md
-│   ├── style-reference-scout.md
-│   ├── refactor-engineer.md
-│   ├── test-engineer.md
-│   └── quality-guardian.md
-├── skills/
-│   ├── README.md                    # Visão geral das skills (capabilities compostas)
-│   ├── read-project-context.md
-│   ├── classify-change.md
-│   ├── build-scope-map.md
-│   ├── collect-visual-references.md
-│   ├── build-risk-matrix.md
-│   ├── write-tests.md
-│   ├── run-audit-checklist.md
-│   └── document-aicontext.md
-├── tools/
-│   ├── README.md                    # Visão geral das tools (operações atômicas)
-│   ├── inspect-files.md
-│   ├── search-codebase.md
-│   ├── run-command.md
-│   └── emit-structured-output.md
-└── templates/
-    ├── spec-template.md
-    ├── clarify-template.md
-    ├── plan-template.md
-    ├── tasks-template.md
-    ├── implement-template.md
-    └── report-template.md
-```
-
-## Hierarquia
-
-```
-Agent (goal de alto nível)
-  ├── invoca Sub-agents   → especialistas com missão única
-  │     └── usam Skills  → capabilities compostas
-  │           └── usam Tools → operações atômicas
-  ├── usa Skills diretamente quando aplicável
-  └── usa Tools diretamente quando aplicável
-```
-
-## Instalação global (recomendado)
-
-Instala o framework em `~/.ai-dev-framework/` e injeta referência nos AI agents CLI instalados.
+## Instalação global
 
 ```bash
 npm install -g ai-dev-framework
@@ -70,55 +10,178 @@ ai-dev-framework install
 ai-dev-framework link --all
 ```
 
-### Agents suportados
+Instala o framework em `~/.ai-dev-framework/` e injeta referência automática nos AI agents CLI detectados.
 
-| Comando | Agent |
-|---------|-------|
-| `link claude` | Claude Code (`~/.claude/CLAUDE.md`) |
-| `link codex` | OpenAI Codex CLI (`~/.codex/instructions.md`) |
-| `link copilot` | GitHub Copilot CLI |
-| `link gemini` | Gemini CLI (`~/.gemini/GEMINI.md`) |
-| `link --all` | Todos os detectados automaticamente |
+### AI agents suportados
 
-### Outros comandos
+| Comando | Agent | Config injetada |
+|---------|-------|-----------------|
+| `link claude` | Claude Code | `~/.claude/CLAUDE.md` |
+| `link codex` | OpenAI Codex CLI | `~/.codex/instructions.md` |
+| `link copilot` | GitHub Copilot CLI | `~/.config/gh-copilot/instructions.md` |
+| `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
+| `link --all` | Todos os detectados | — |
+
+### Comandos disponíveis
 
 ```bash
-ai-dev-framework status       # estado da instalação e agents detectados
-ai-dev-framework uninstall    # remover ~/.ai-dev-framework/
+ai-dev-framework install       # instala framework em ~/.ai-dev-framework/
+ai-dev-framework link --all    # linka a todos os agents detectados
+ai-dev-framework link claude   # linka apenas ao Claude Code
+ai-dev-framework status        # mostra estado da instalação e agents detectados
+ai-dev-framework uninstall     # remove ~/.ai-dev-framework/
 ```
 
-## Como usar em um projeto específico
+---
 
-1. Copie ou faça referência a `agents.md` e `constitution.md` na raiz do projeto.
-2. Copie os diretórios `agents/`, `sub-agents/`, `skills/`, `tools/` e `templates/` para um diretório de contexto (ex: `context/`).
-3. Adapte `agents.md` com a stack, comandos e mapa de contexto do projeto específico.
-4. Use os agents como ponto de entrada (`bugfix-agent`, `feature-module-agent`, etc.).
+## Uso com AI agents CLI
+
+Após `install` + `link`, o agent lê automaticamente o framework no contexto global. Referencie os artefatos diretamente nas suas instruções:
+
+### Claude Code
+
+```bash
+# O framework já está no contexto via ~/.claude/CLAUDE.md
+# Use os agents diretamente:
+claude "use o bugfix-agent para corrigir o bug de timeout no módulo de pagamentos"
+claude "use o feature-module-agent para criar o módulo de notificações"
+```
+
+### OpenAI Codex CLI
+
+```bash
+codex "use refactor-engineer em src/auth/login.ts — separar lógica de validação do componente"
+```
+
+### Referência direta a arquivos do framework
+
+```bash
+# Passar o agent como contexto explícito
+claude --context ~/.ai-dev-framework/agents/bugfix-agent.md "corrigir o bug X"
+
+# Usar constitution como instrução de sistema
+claude --system ~/.ai-dev-framework/constitution.md "implementar feature Y"
+```
+
+---
+
+## Exemplos de uso
+
+### Corrigir um bug
+
+```
+use o bugfix-agent para corrigir o comportamento incorreto no cálculo de datas
+```
+
+O agent irá:
+1. Confirmar comportamento atual vs. esperado
+2. Invocar `scope-mapper` se a origem for difusa
+3. Corrigir no menor ponto viável via `refactor-engineer`
+4. Criar teste de regressão via `test-engineer`
+5. Auditar via `quality-guardian` antes de entregar
+
+### Criar nova feature
+
+```
+use o feature-module-agent para criar o módulo de autenticação via OAuth
+```
+
+O agent irá:
+1. Criar `specs/001-oauth-auth/` com spec, clarify, plan, tasks, implement, report
+2. Aguardar aprovação explícita antes de escrever código
+3. Executar pipeline completo: scope-mapper → style-reference-scout → refactor-engineer → test-engineer → quality-guardian
+
+### Refatorar componente
+
+```
+use o component-refactor-agent em src/components/UserDashboard.tsx
+```
+
+### Criar novo componente
+
+```
+use o component-creation-agent para criar um componente de DataTable reutilizável
+```
+
+### Melhorar código existente
+
+```
+use o improvement-agent para melhorar a performance do módulo de relatórios
+```
+
+---
+
+## Hierarquia
+
+```
+Agent (orchestrator — goal de alto nível)
+  ├── invoca Sub-agents  →  especialistas com missão única
+  │     └── usam Skills  →  capabilities compostas e reutilizáveis
+  │           └── usam Tools  →  operações atômicas
+  ├── usa Skills diretamente quando aplicável
+  └── usa Tools diretamente quando aplicável
+```
+
+## Estrutura
+
+```
+ai-dev-framework/
+├── agents.md                        # Guia operacional e regras
+├── constitution.md                  # Princípios de engenharia permanentes
+├── components-registry.md           # Registro de componentes reutilizáveis
+├── agents/                          # Orchestrators (goal de alto nível)
+│   ├── agent-base.md
+│   ├── bugfix-agent.md
+│   ├── component-creation-agent.md
+│   ├── component-refactor-agent.md
+│   ├── feature-module-agent.md
+│   └── improvement-agent.md
+├── sub-agents/                      # Especialistas (missão única)
+│   ├── scope-mapper.md
+│   ├── style-reference-scout.md
+│   ├── refactor-engineer.md
+│   ├── test-engineer.md
+│   └── quality-guardian.md
+├── skills/                          # Capabilities compostas e reutilizáveis
+│   ├── read-project-context.md
+│   ├── classify-change.md
+│   ├── build-scope-map.md
+│   ├── collect-visual-references.md
+│   ├── build-risk-matrix.md
+│   ├── write-tests.md
+│   ├── run-audit-checklist.md
+│   ├── document-aicontext.md
+│   └── commit-changes.md
+└── tools/                           # Operações atômicas
+    ├── inspect-files.md
+    ├── search-codebase.md
+    ├── run-command.md
+    └── emit-structured-output.md
+```
 
 ## Convenções
 
-- **Agents**: orchestrators com goal de alto nível. Invocam sub-agents, skills e tools.
-- **Sub-agents**: especialistas com missão única, invocados pelos agents.
-- **Skills**: capabilities compostas e reutilizáveis, usadas por agents e sub-agents.
-- **Tools**: operações atômicas — leitura, busca, execução e output.
-- **Templates**: estruturas de artefatos para spec, plano, tarefas, implementação e relatório.
+- **Agents**: orchestrators — decidem quais sub-agents, skills e tools invocar
+- **Sub-agents**: especialistas — executam escopo restrito com input/output definido
+- **Skills**: capabilities compostas — encapsulam procedimentos reutilizáveis
+- **Tools**: operações atômicas — leitura, busca, execução, output
+- **Templates**: artefatos de spec, plano, tarefas, implementação e relatório
 
 ## Pipeline padrão
 
 ```
-Agent (ex: bugfix-agent)
+Agent
   └── scope-mapper (condicional)
-        └── skills: read-project-context, build-scope-map
-        └── tools: inspect-files, search-codebase, emit-structured-output
   └── style-reference-scout (condicional)
-        └── skills: read-project-context, collect-visual-references
-        └── tools: inspect-files, emit-structured-output
   └── refactor-engineer
-        └── skills: read-project-context
-        └── tools: inspect-files, search-codebase, emit-structured-output
   └── test-engineer
-        └── skills: read-project-context, build-risk-matrix, write-tests
-        └── tools: run-command, emit-structured-output
-  └── quality-guardian (gate final)
-        └── skills: read-project-context, run-audit-checklist
-        └── tools: inspect-files, emit-structured-output
+  └── quality-guardian  ← gate final bloqueante
 ```
+
+## Como usar em um projeto específico (sem instalação global)
+
+```bash
+npm install github:alfredo-petri/ai-dev-framework
+```
+
+Ou copie manualmente `agents/`, `sub-agents/`, `skills/`, `tools/`, `templates/`, `constitution.md` e `agents.md` para um diretório `context/` no projeto e adapte `agents.md` com a stack local.
