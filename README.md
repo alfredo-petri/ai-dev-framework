@@ -60,7 +60,34 @@ Agent (goal de alto nível)
   └── usa Tools diretamente quando aplicável
 ```
 
-## Como usar em um novo projeto
+## Instalação global (recomendado)
+
+Instala o framework em `~/.ai-dev-framework/` e injeta referência nos AI agents CLI instalados.
+
+```bash
+npm install -g ai-dev-framework
+ai-dev-framework install
+ai-dev-framework link --all
+```
+
+### Agents suportados
+
+| Comando | Agent |
+|---------|-------|
+| `link claude` | Claude Code (`~/.claude/CLAUDE.md`) |
+| `link codex` | OpenAI Codex CLI (`~/.codex/instructions.md`) |
+| `link copilot` | GitHub Copilot CLI |
+| `link gemini` | Gemini CLI (`~/.gemini/GEMINI.md`) |
+| `link --all` | Todos os detectados automaticamente |
+
+### Outros comandos
+
+```bash
+ai-dev-framework status       # estado da instalação e agents detectados
+ai-dev-framework uninstall    # remover ~/.ai-dev-framework/
+```
+
+## Como usar em um projeto específico
 
 1. Copie ou faça referência a `agents.md` e `constitution.md` na raiz do projeto.
 2. Copie os diretórios `agents/`, `sub-agents/`, `skills/`, `tools/` e `templates/` para um diretório de contexto (ex: `context/`).

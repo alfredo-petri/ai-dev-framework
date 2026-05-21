@@ -1,0 +1,39 @@
+{
+  "name": "ai-dev-framework",
+  "version": "1.0.0",
+  "description": "Portable AI development framework — agents, sub-agents, skills and tools for AI-assisted development",
+  "bin": {
+    "ai-dev-framework": "./bin/cli.js"
+  },
+  "files": [
+    "bin/",
+    "agents/",
+    "sub-agents/",
+    "skills/",
+    "tools/",
+    "templates/",
+    "constitution.md",
+    "agents.md",
+    "components-registry.md"
+  ],
+  "keywords": [
+    "ai",
+    "agents",
+    "framework",
+    "claude",
+    "codex",
+    "copilot",
+    "gemini",
+    "llm",
+    "ai-agents",
+    "development-framework"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alfredo-petri/ai-dev-framework.git"
+  }
+}
