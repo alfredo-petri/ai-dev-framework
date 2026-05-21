@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.1.1
+
+### CLI
+
+- Corrigido: slash commands agora criados em `~/.claude/commands/<name>.md` (formato correto do Claude Code)
+- Era: `~/.claude/skills/<name>/SKILL.md` (não existe no Claude Code)
+
 ## v1.1.0
 
 ### CLI

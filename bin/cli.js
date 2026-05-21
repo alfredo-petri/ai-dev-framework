@@ -124,32 +124,24 @@ const SKILL_WRAPPERS = [
 ];
 
 function createSkillWrappers(claudeDir) {
-  const skillsDir = path.join(claudeDir, 'skills');
+  const commandsDir = path.join(claudeDir, 'commands');
+  fs.mkdirSync(commandsDir, { recursive: true });
   let created = 0;
   for (const wrapper of SKILL_WRAPPERS) {
-    const wrapperDir = path.join(skillsDir, wrapper.name);
-    const wrapperFile = path.join(wrapperDir, 'SKILL.md');
+    const commandFile = path.join(commandsDir, `${wrapper.name}.md`);
     const canonicalPath = path.join(FRAMEWORK_DIR, wrapper.file);
-    const content = [
-      '---',
-      `name: ${wrapper.name}`,
-      `description: "${wrapper.description}"`,
-      '---',
-      '',
-      `Read the full content of \`${canonicalPath}\` and follow its instructions exactly for the task provided by the user.`,
-    ].join('\n');
-    fs.mkdirSync(wrapperDir, { recursive: true });
-    fs.writeFileSync(wrapperFile, content);
+    const content = `Read the full content of \`${canonicalPath}\` and follow its instructions exactly for the task provided by the user.\n`;
+    fs.writeFileSync(commandFile, content);
     created++;
   }
   return created;
 }
 
 function removeSkillWrappers(claudeDir) {
-  const skillsDir = path.join(claudeDir, 'skills');
+  const commandsDir = path.join(claudeDir, 'commands');
   for (const wrapper of SKILL_WRAPPERS) {
-    const wrapperDir = path.join(skillsDir, wrapper.name);
-    if (fs.existsSync(wrapperDir)) fs.rmSync(wrapperDir, { recursive: true, force: true });
+    const commandFile = path.join(commandsDir, `${wrapper.name}.md`);
+    if (fs.existsSync(commandFile)) fs.rmSync(commandFile);
   }
 }
 
@@ -165,7 +157,7 @@ const AGENTS = {
       injectBlock(target, frameworkBlock());
       console.log(`  ✓ ${target}`);
       const count = createSkillWrappers(claudeDir);
-      console.log(`  ✓ ${count} skill wrappers criados em ${path.join(claudeDir, 'skills')}`);
+      console.log(`  ✓ ${count} slash commands criados em ${path.join(claudeDir, 'commands')}`);
     },
   },
   codex: {
@@ -367,7 +359,7 @@ function uninstall() {
   if (fs.existsSync(claudeDir)) removeSkillWrappers(claudeDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`✓ Removed ${FRAMEWORK_DIR}`);
-  console.log(`✓ Skill wrappers removed from ${claudeDir}/skills`);
+  console.log(`✓ Slash commands removed from ${claudeDir}/commands`);
 }
 
 function help() {
