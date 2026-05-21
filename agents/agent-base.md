@@ -48,13 +48,16 @@ Se o repositório pode responder, não pergunte.
 
 Agents podem invocar qualquer skill em `skills/`:
 - `skills/read-project-context.md`
+- `skills/classify-change.md`
 - `skills/build-scope-map.md`
 - `skills/collect-visual-references.md`
 - `skills/build-risk-matrix.md`
 - `skills/run-audit-checklist.md`
-- `skills/classify-change.md`
 - `skills/document-aicontext.md`
 - `skills/write-tests.md`
+- `skills/commit-changes.md`
+- `skills/open-github-issue.md`
+- `skills/close-github-issue.md`
 
 ## Tools disponíveis
 
@@ -66,16 +69,24 @@ Agents podem invocar qualquer tool em `tools/`:
 
 ## Pipeline base de sub-agents
 
-1. `scope-mapper` — quando escopo difuso, cruzando módulos ou contratos
-2. `style-reference-scout` — quando nova UI ou referências visuais citadas
-3. `refactor-engineer` — para implementar/estruturar a mudança
-4. `test-engineer` — para cobertura proporcional ao risco
-5. `quality-guardian` — como gate final
+```
+1. read-project-context    (skill — obrigatória)
+2. classify-change         (skill — obrigatória)
+3. open-github-issue       (skill — obrigatória se repositório GitHub disponível)
+4. scope-mapper            (sub-agent — condicional: escopo difuso ou cruzando módulos)
+5. style-reference-scout   (sub-agent — condicional: nova UI ou referências visuais citadas)
+6. refactor-engineer       (sub-agent — obrigatório em mudanças reais de código)
+7. test-engineer           (sub-agent — obrigatório em mudanças reais de código)
+8. quality-guardian        (sub-agent — gate final bloqueante)
+9. commit-changes          (skill — após quality-guardian passar)
+10. close-github-issue     (skill — último passo: comenta e fecha issue)
+```
 
 Regras:
 - `refactor-engineer`, `test-engineer`, `quality-guardian` são obrigatórios em mudanças reais de código
 - `scope-mapper` é condicional
 - `style-reference-scout` é condicional, não substitui leitura de código real
+- `open-github-issue` e `close-github-issue` são obrigatórias quando há repositório GitHub — pular apenas se `gh` CLI ausente ou usuário dispensar
 
 ## Regra para diferentes ferramentas
 

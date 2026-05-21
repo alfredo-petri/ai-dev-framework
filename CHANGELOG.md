@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.2.0
+
+### Skills
+
+- `open-github-issue` — abre issue GitHub com label correlata antes de implementar (bug/enhancement/refactor/documentation/chore)
+- `close-github-issue` — comenta resumo da implementação e fecha issue após commit-changes
+
+### Agents
+
+- `agent-base`: pipeline atualizado — open-github-issue antes de implementar, close-github-issue como último passo
+
+### CLI
+
+- 2 novos slash commands: `ai-df-skill-open-github-issue`, `ai-df-skill-close-github-issue`
+
 ## v1.1.1
 
 ### CLI

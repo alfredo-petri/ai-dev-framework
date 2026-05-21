@@ -119,6 +119,8 @@ const SKILL_WRAPPERS = [
   { name: 'ai-df-skill-run-audit-checklist',        file: 'skills/run-audit-checklist.md',        description: 'Run audit checklist skill — blocking final audit checklist for regressions, contracts and rule compliance.' },
   { name: 'ai-df-skill-document-aicontext',         file: 'skills/document-aicontext.md',         description: 'Document aicontext skill — creates or updates aicontext/<module>.md after a feature or fix.' },
   { name: 'ai-df-skill-commit-changes',             file: 'skills/commit-changes.md',             description: 'Commit changes skill — groups and executes semantic commits by functionality.' },
+  { name: 'ai-df-skill-open-github-issue',           file: 'skills/open-github-issue.md',           description: 'Open GitHub issue skill — opens an issue with a correlated label before starting any implementation.' },
+  { name: 'ai-df-skill-close-github-issue',          file: 'skills/close-github-issue.md',          description: 'Close GitHub issue skill — comments implementation summary and closes the issue after commit-changes.' },
   { name: 'ai-df-skill-search-update',              file: 'skills/search-update.md',              description: 'Search update skill — checks for available framework updates once per session.' },
   { name: 'ai-df-skill-update',                     file: 'skills/update.md',                     description: 'Update skill — updates the ai-dev-framework to the latest version after user approval.' },
 ];
