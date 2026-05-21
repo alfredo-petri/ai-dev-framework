@@ -94,6 +94,65 @@ function recordCheck() {
   }
 }
 
+// ─── Skill wrappers registry ─────────────────────────────────────────────────
+
+const SKILL_WRAPPERS = [
+  // Agents
+  { name: 'ai-df-agent-bugfix',              file: 'agents/bugfix-agent.md',              description: 'Bugfix agent — corrects incorrect behavior with minimal safe change. Use to fix a confirmed bug.' },
+  { name: 'ai-df-agent-component-creation',  file: 'agents/component-creation-agent.md',  description: 'Component creation agent — creates new components preserving project patterns. Use when creating a new component.' },
+  { name: 'ai-df-agent-component-refactor',  file: 'agents/component-refactor-agent.md',  description: 'Component refactor agent — refactors with componentization and logic-UI separation. Use when refactoring a component.' },
+  { name: 'ai-df-agent-feature-module',      file: 'agents/feature-module-agent.md',      description: 'Feature module agent — creates new features/modules with spec, plan and report discipline. Use when starting a new feature.' },
+  { name: 'ai-df-agent-improvement',         file: 'agents/improvement-agent.md',         description: 'Improvement agent — improves existing code without regression or pattern deviation. Use for incremental improvements.' },
+  // Sub-agents
+  { name: 'ai-df-subagent-scope-mapper',           file: 'sub-agents/scope-mapper.md',           description: 'Scope mapper sub-agent — maps scope, contracts and candidate files before refactoring or testing.' },
+  { name: 'ai-df-subagent-style-reference-scout',  file: 'sub-agents/style-reference-scout.md',  description: 'Style reference scout sub-agent — collects visual references before creating new UI components.' },
+  { name: 'ai-df-subagent-refactor-engineer',      file: 'sub-agents/refactor-engineer.md',      description: 'Refactor engineer sub-agent — refactors code conservatively with componentization and logic extraction.' },
+  { name: 'ai-df-subagent-test-engineer',          file: 'sub-agents/test-engineer.md',          description: 'Test engineer sub-agent — creates test coverage by risk matrix using the project test framework.' },
+  { name: 'ai-df-subagent-quality-guardian',       file: 'sub-agents/quality-guardian.md',       description: 'Quality guardian sub-agent — blocking auditor for regressions, edge cases and rule violations. Final gate.' },
+  // Skills
+  { name: 'ai-df-skill-read-project-context',       file: 'skills/read-project-context.md',       description: 'Read project context skill — mandatory first step reading constitution, agents.md and domain context.' },
+  { name: 'ai-df-skill-classify-change',            file: 'skills/classify-change.md',            description: 'Classify change skill — classifies a change as feature, fix, improvement or component.' },
+  { name: 'ai-df-skill-build-scope-map',            file: 'skills/build-scope-map.md',            description: 'Build scope map skill — maps in-scope files, contracts and ambiguities before a change.' },
+  { name: 'ai-df-skill-collect-visual-references',  file: 'skills/collect-visual-references.md',  description: 'Collect visual references skill — inspects existing components to extract visual patterns and tokens.' },
+  { name: 'ai-df-skill-build-risk-matrix',          file: 'skills/build-risk-matrix.md',          description: 'Build risk matrix skill — builds unit/component/integration test coverage plan by risk.' },
+  { name: 'ai-df-skill-write-tests',                file: 'skills/write-tests.md',                description: 'Write tests skill — writes tests using the project test framework following existing patterns.' },
+  { name: 'ai-df-skill-run-audit-checklist',        file: 'skills/run-audit-checklist.md',        description: 'Run audit checklist skill — blocking final audit checklist for regressions, contracts and rule compliance.' },
+  { name: 'ai-df-skill-document-aicontext',         file: 'skills/document-aicontext.md',         description: 'Document aicontext skill — creates or updates aicontext/<module>.md after a feature or fix.' },
+  { name: 'ai-df-skill-commit-changes',             file: 'skills/commit-changes.md',             description: 'Commit changes skill — groups and executes semantic commits by functionality.' },
+  { name: 'ai-df-skill-search-update',              file: 'skills/search-update.md',              description: 'Search update skill — checks for available framework updates once per session.' },
+  { name: 'ai-df-skill-update',                     file: 'skills/update.md',                     description: 'Update skill — updates the ai-dev-framework to the latest version after user approval.' },
+];
+
+function createSkillWrappers(claudeDir) {
+  const skillsDir = path.join(claudeDir, 'skills');
+  let created = 0;
+  for (const wrapper of SKILL_WRAPPERS) {
+    const wrapperDir = path.join(skillsDir, wrapper.name);
+    const wrapperFile = path.join(wrapperDir, 'SKILL.md');
+    const canonicalPath = path.join(FRAMEWORK_DIR, wrapper.file);
+    const content = [
+      '---',
+      `name: ${wrapper.name}`,
+      `description: "${wrapper.description}"`,
+      '---',
+      '',
+      `Read the full content of \`${canonicalPath}\` and follow its instructions exactly for the task provided by the user.`,
+    ].join('\n');
+    fs.mkdirSync(wrapperDir, { recursive: true });
+    fs.writeFileSync(wrapperFile, content);
+    created++;
+  }
+  return created;
+}
+
+function removeSkillWrappers(claudeDir) {
+  const skillsDir = path.join(claudeDir, 'skills');
+  for (const wrapper of SKILL_WRAPPERS) {
+    const wrapperDir = path.join(skillsDir, wrapper.name);
+    if (fs.existsSync(wrapperDir)) fs.rmSync(wrapperDir, { recursive: true, force: true });
+  }
+}
+
 // ─── Agent definitions ───────────────────────────────────────────────────────
 
 const AGENTS = {
@@ -101,9 +160,12 @@ const AGENTS = {
     name: 'Claude Code',
     detect: () => fs.existsSync(path.join(os.homedir(), '.claude')),
     link() {
-      const target = path.join(os.homedir(), '.claude', 'CLAUDE.md');
+      const claudeDir = path.join(os.homedir(), '.claude');
+      const target = path.join(claudeDir, 'CLAUDE.md');
       injectBlock(target, frameworkBlock());
       console.log(`  ✓ ${target}`);
+      const count = createSkillWrappers(claudeDir);
+      console.log(`  ✓ ${count} skill wrappers criados em ${path.join(claudeDir, 'skills')}`);
     },
   },
   codex: {
@@ -301,8 +363,11 @@ function status() {
 
 function uninstall() {
   if (!fs.existsSync(FRAMEWORK_DIR)) { console.log('Not installed.'); return; }
+  const claudeDir = path.join(os.homedir(), '.claude');
+  if (fs.existsSync(claudeDir)) removeSkillWrappers(claudeDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`✓ Removed ${FRAMEWORK_DIR}`);
+  console.log(`✓ Skill wrappers removed from ${claudeDir}/skills`);
 }
 
 function help() {

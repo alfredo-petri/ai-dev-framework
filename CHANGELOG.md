@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.1.0
+
+### CLI
+
+- `link claude` agora cria 21 skill wrappers em `~/.claude/skills/` — agents, sub-agents e skills disponíveis como slash commands no Claude Code
+- Nomenclatura: `ai-df-agent-*`, `ai-df-subagent-*`, `ai-df-skill-*`
+- `uninstall` remove wrappers de `~/.claude/skills/` automaticamente
+- `update` recria wrappers após atualização de arquivos
+
 ## v1.0.0
 
 ### Arquitetura
