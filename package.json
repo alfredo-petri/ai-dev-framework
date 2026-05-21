@@ -1,9 +1,9 @@
 {
-  "name": "ai-dev-framework",
+  "name": "@alfredo-petri/ai-dev-framework",
   "version": "1.0.0",
   "description": "Portable AI development framework — agents, sub-agents, skills and tools for AI-assisted development",
   "bin": {
-    "ai-dev-framework": "./bin/cli.js"
+    "ai-dev-framework": "bin/cli.js"
   },
   "files": [
     "bin/",
@@ -14,7 +14,9 @@
     "templates/",
     "constitution.md",
     "agents.md",
-    "components-registry.md"
+    "components-registry.md",
+    "CHANGELOG.md",
+    "README.md"
   ],
   "keywords": [
     "ai",
@@ -34,6 +36,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/alfredo-petri/ai-dev-framework.git"
+    "url": "git+https://github.com/alfredo-petri/ai-dev-framework.git"
   }
 }

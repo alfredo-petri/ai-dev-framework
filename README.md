@@ -5,7 +5,7 @@ Framework portátil de agents, sub-agents, skills e tools para desenvolvimento a
 ## Instalação global
 
 ```bash
-npm install -g ai-dev-framework
+npm install -g @alfredo-petri/ai-dev-framework
 ai-dev-framework install
 ai-dev-framework link --all
 ```
