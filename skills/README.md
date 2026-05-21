@@ -15,6 +15,8 @@ Capabilities compostas e reutilizáveis. Usadas por agents e sub-agents para exe
 | `run-audit-checklist` | Checklist bloqueante de auditoria final | quality-guardian |
 | `document-aicontext` | Cria/atualiza `aicontext/<modulo>.md` | feature-module-agent e agents de implementação |
 | `commit-changes` | Agrupa e executa commits semânticos por funcionalidade | Agents após entrega de mudanças reais |
+| `search-update` | Verifica atualizações disponíveis (uma vez por sessão) | Primeiro uso de qualquer recurso do framework |
+| `update` | Atualiza framework para a versão mais recente | Após `search-update` com aprovação do usuário |
 
 ## Hierarquia
 
