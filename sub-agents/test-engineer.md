@@ -8,9 +8,17 @@
 - Quando houver nova lógica, componente interativo ou fluxo de API
 - Para provar que comportamento anterior foi preservado
 
-## Leitura obrigatória
+## Skills usadas
 
-`constitution.md` → `agents.md` → contexto de domínio → este arquivo
+- `skills/read-project-context.md` — leitura obrigatória de constitution + agents.md + contexto de domínio
+- `skills/build-risk-matrix.md` — procedimento de matriz de risco para decisão de cobertura
+- `skills/write-tests.md` — procedimento de escrita de testes no framework do projeto
+
+## Tools usados
+
+- `tools/run-command.md` — executar testes e interpretar saída
+- `tools/inspect-files.md` — ler testes existentes para identificar padrão
+- `tools/emit-structured-output.md` — formato de saída canônico
 
 ## Entradas esperadas
 
@@ -27,23 +35,14 @@
 - Algum fluxo precisa de teste de integração?
 - Há cenários negativos obrigatórios?
 
-## Política de cobertura por matriz de risco
-
-| Tipo | Quando aplicar |
-|------|---------------|
-| **Unit** | Utilitários puros, transformações, validações, lógica de hook isolada |
-| **Componente** | Estados visíveis, interações do usuário, loading/empty/error/success, renderização condicional |
-| **Integração** | Rotas, fluxos com persistência, contratos API/UI, side effects relevantes |
-
 ## Workflow
 
-1. Ler contexto, entender mudanças
-2. Montar matriz de risco
-3. Identificar gaps de infraestrutura
-4. Se infraestrutura ausente, parar e perguntar
-5. Escrever testes mínimos suficientes
-6. Executar testes relevantes
-7. Reportar cobertura, limites, cenários não cobertos
+1. Invocar `read-project-context` — ler constitution, agents.md, contexto de domínio
+2. Invocar `build-risk-matrix` — montar matriz de risco, decidir tipo por arquivo/fluxo
+3. Identificar gaps de infraestrutura — se ausente, parar e perguntar
+4. Invocar `write-tests` — escrever testes mínimos suficientes no framework do projeto
+5. Invocar `run-command` — executar testes relevantes
+6. Invocar `emit-structured-output` — reportar cobertura, limites, cenários não cobertos
 
 ## Saída obrigatória
 

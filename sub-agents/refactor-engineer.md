@@ -14,9 +14,15 @@
 - Problema apenas visual/isolado sem justificativa de abstração real
 - Refatoração que precisaria traversar toda a aplicação
 
-## Leitura obrigatória
+## Skills usadas
 
-`constitution.md` → `agents.md` → contexto de domínio → este arquivo
+- `skills/read-project-context.md` — leitura obrigatória de constitution + agents.md + contexto de domínio
+
+## Tools usados
+
+- `tools/inspect-files.md` — ler código real da seção, identificar responsabilidades
+- `tools/search-codebase.md` — localizar consumidores, padrões existentes, reuso potencial
+- `tools/emit-structured-output.md` — formato de saída canônico
 
 ## Entradas esperadas
 
@@ -46,12 +52,13 @@
 
 ## Workflow
 
-1. Ler contexto, inspecionar código real da seção
-2. Identificar responsabilidades: renderização, estado, regras de negócio, side effects, integrações
-3. Definir menor escopo de refatoração que resolve o problema
-4. Extrair apenas o necessário: subcomponentes, hooks, services, types, utilitários
-5. Preservar contratos, comportamento e feedback visual
-6. Sinalizar o que o test-engineer deve cobrir
+1. Invocar `read-project-context` — ler constitution, agents.md, contexto de domínio
+2. Invocar `inspect-files` — inspecionar código real da seção
+3. Identificar responsabilidades: renderização, estado, regras de negócio, side effects, integrações
+4. Definir menor escopo de refatoração que resolve o problema
+5. Extrair apenas o necessário: subcomponentes, hooks, services, types, utilitários
+6. Preservar contratos, comportamento e feedback visual
+7. Invocar `emit-structured-output` — sinalizar o que o test-engineer deve cobrir
 
 ## Limites e bloqueio
 

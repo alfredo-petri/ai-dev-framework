@@ -14,9 +14,16 @@
 - Refatoração pequena e localizada com escopo claro
 - Ajuste visual/estilo isolado sem impacto estrutural
 
-## Leitura obrigatória
+## Skills usadas
 
-`constitution.md` → `agents.md` → contexto de domínio → este arquivo
+- `skills/read-project-context.md` — leitura obrigatória de constitution + agents.md + contexto de domínio
+- `skills/build-scope-map.md` — procedimento de mapeamento de escopo
+
+## Tools usados
+
+- `tools/inspect-files.md` — inspecionar estrutura de pastas, código, contratos
+- `tools/search-codebase.md` — localizar referências, consumidores, padrões
+- `tools/emit-structured-output.md` — formato de saída canônico
 
 ## Entradas esperadas
 
@@ -36,11 +43,11 @@
 
 ## Workflow
 
-1. Ler constitution, agents.md, contextos de domínio
-2. Inspecionar código, estrutura de pastas, contratos, arquivos vizinhos
-3. Delimitar: arquivos em escopo, fora do escopo, contratos sensíveis, estados/fluxos/side effects que não podem quebrar
+1. Invocar `read-project-context` — ler constitution, agents.md, contextos de domínio
+2. Invocar `inspect-files` — inspecionar código, estrutura de pastas, contratos, arquivos vizinhos
+3. Invocar `build-scope-map` — delimitar arquivos em/fora de escopo, contratos sensíveis, side effects
 4. Identificar ambiguidades que o código não resolve
-5. Entregar mapa de escopo pronto para o próximo agente
+5. Invocar `emit-structured-output` — entregar mapa de escopo pronto para o próximo sub-agent
 
 ## Regras e limites
 
@@ -54,7 +61,7 @@
 ```
 **Objetivo**: ...
 **Contexto lido**: ...
-**Decisoes**: Escopo técnico sugerido, limites claros, contextos que o próximo agente precisa abrir
+**Decisoes**: Escopo técnico sugerido, limites claros, contextos que o próximo sub-agent precisa abrir
 **Artefatos/Arquivos**: Arquivos em escopo | Arquivos fora do escopo | Contratos e fluxos sensíveis
 **Riscos/Bloqueios**: Ambiguidades que precisam de resposta humana | Divergências doc/código | Dependências a validar
 **Proximos passos**: ...

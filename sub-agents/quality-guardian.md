@@ -1,6 +1,6 @@
 # quality-guardian
 
-**Missão**: Atuar como auditor bloqueante garantindo que a refatoração não comprometeu funcionalidade, não criou regressão/edge case/side effect e não violou `agents.md` ou `constitution.md`.
+**Missão**: Atuar como auditor bloqueante garantindo que a mudança não comprometeu funcionalidade, não criou regressão/edge case/side effect e não violou `agents.md` ou `constitution.md`.
 
 ## Quando usar
 
@@ -13,9 +13,15 @@
 - Mudanças puramente documentais
 - Tarefas cujo objetivo é apenas gerar contexto
 
-## Leitura obrigatória
+## Skills usadas
 
-`constitution.md` → `agents.md` → contexto de domínio → este arquivo
+- `skills/read-project-context.md` — leitura obrigatória de constitution + agents.md + contexto de domínio
+- `skills/run-audit-checklist.md` — checklist bloqueante de auditoria final
+
+## Tools usados
+
+- `tools/inspect-files.md` — ler diff, arquivos alterados, testes e handoffs anteriores
+- `tools/emit-structured-output.md` — formato de saída canônico com veredicto
 
 ## Entradas esperadas
 
@@ -31,21 +37,12 @@
 - Quais edge cases são mais sensíveis?
 - O que o usuário considera bloqueante?
 
-## Regras de auditoria
-
-- Este agente é bloqueante por padrão
-- Achados vêm antes de sumários
-- Cada achado deve ser concreto, verificável e priorizado
-- Revisar: regressão funcional, edge cases/side effects, preservação de contratos, aderência ao `agents.md`, aderência à `constitution.md`, separação lógica-UI, uso do sistema de design do projeto em novos componentes/refatorações, cobertura de testes coerente com o risco
-- Não aplique correções a menos que o usuário peça explicitamente
-
 ## Workflow
 
-1. Ler contexto, diff e handoffs anteriores
-2. Validar o que realmente mudou
-3. Verificar contratos, fluxos e estados sensíveis preservados
-4. Verificar cobertura de testes condizente com risco
-5. Emitir veredicto final: `aprovado` ou `bloqueado`
+1. Invocar `read-project-context` — ler constitution, agents.md, contexto de domínio
+2. Invocar `inspect-files` — ler diff e handoffs anteriores, validar o que realmente mudou
+3. Invocar `run-audit-checklist` — verificar contratos, fluxos, cobertura e aderência às regras
+4. Invocar `emit-structured-output` — emitir veredicto final: `aprovado` ou `bloqueado`
 
 ## Limites e bloqueio
 
@@ -56,6 +53,8 @@ Bloquear quando:
 - Teste obrigatório ausente para mudança relevante
 - Componentização sem justificativa ou lógica não trivial na interface
 - Contrato alterado sem aprovação
+
+Não aplique correções a menos que o usuário peça explicitamente.
 
 ## Saída obrigatória
 

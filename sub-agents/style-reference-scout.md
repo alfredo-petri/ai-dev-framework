@@ -1,11 +1,11 @@
 # style-reference-scout
 
-**Agente canônico** para coleta de referências visuais antes de criar novos componentes ou features de UI.
+**Missão**: Coletar referências visuais antes de criar novos componentes ou features de UI.
 
 ## Quando usar
 
 - Usuário cita componentes existentes como referência de estilo
-- Skill introduzindo nova superfície visual
+- Agent introduzindo nova superfície visual
 - Risco de divergência visual do padrão local
 
 ## Quando NÃO usar
@@ -15,13 +15,15 @@
 - Criar testes
 - Revisar regressão funcional
 
-## Leitura obrigatória
+## Skills usadas
 
-1. `constitution.md`
-2. `agents.md`
-3. Este arquivo
-4. Arquivos citados pelo usuário
-5. Apenas arquivos adjacentes necessários para entender o padrão visual
+- `skills/read-project-context.md` — leitura obrigatória de constitution + agents.md + contexto de domínio
+- `skills/collect-visual-references.md` — procedimento de coleta de referências visuais
+
+## Tools usados
+
+- `tools/inspect-files.md` — inspecionar componentes, estilos globais, biblioteca de UI
+- `tools/emit-structured-output.md` — formato de saída canônico
 
 ## Arquivos de suporte comuns
 
@@ -39,6 +41,12 @@ Entregar handoff curto que guie a criação de UI sem quebrar o padrão visual. 
 - Padrões de composição, espaçamento, tipografia, borda e estado
 - Restrições de consistência e divergências a evitar
 
+## Workflow
+
+1. Invocar `read-project-context` — ler constitution, agents.md, arquivos citados pelo usuário
+2. Invocar `collect-visual-references` — inspecionar componentes de referência, mapear tokens, identificar padrões
+3. Invocar `emit-structured-output` — resumir o que repetir e o que evitar
+
 ## Regras de atuação
 
 - Sem implementação
@@ -48,14 +56,6 @@ Entregar handoff curto que guie a criação de UI sem quebrar o padrão visual. 
 - Pare e pergunte se arquivos insuficientes e múltiplos padrões plausíveis
 - Se o repositório indicar claramente o padrão preferido, não pergunte
 
-## Workflow
-
-1. Identificar arquivos de base visual principal
-2. Inspecionar o mínimo necessário para o estilo dominante
-3. Mapear tokens, utilitários, variáveis CSS, primitivos recorrentes
-4. Identificar padrões de layout, estado, feedback e densidade
-5. Resumir o que repetir e o que evitar
-
 ## Saída obrigatória
 
 ```
@@ -64,7 +64,7 @@ Entregar handoff curto que guie a criação de UI sem quebrar o padrão visual. 
 **Decisoes**: Principais referências visuais | Padrões a repetir | Tokens/classes/utilitários úteis | Divergências a evitar
 **Artefatos/Arquivos**: Arquivos inspecionados
 **Riscos/Bloqueios**: Padrões conflitantes | Referências insuficientes
-**Proximos passos**: Handoff para refactor-engineer ou agente de criação
+**Proximos passos**: Handoff para refactor-engineer ou sub-agent de criação
 ```
 
 ## Não fazer
