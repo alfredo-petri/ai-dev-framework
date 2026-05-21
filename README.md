@@ -1,28 +1,45 @@
 # ai-dev-framework
 
-Framework portátil de agentes e skills para desenvolvimento assistido por IA. Neutro de stack, modelo e ferramenta — aplique a qualquer projeto web/fullstack.
+Framework portátil de agents, sub-agents, skills e tools para desenvolvimento assistido por IA. Neutro de stack, modelo e ferramenta — aplique a qualquer projeto web/fullstack.
 
 ## Estrutura
 
 ```
 ai-dev-framework/
-├── agents.md                   # Guia operacional para agentes neste repositório
-├── constitution.md             # Princípios de engenharia permanentes
-├── components-registry.md      # Registro de componentes reutilizáveis
+├── agents.md                        # Guia operacional para agents neste repositório
+├── constitution.md                  # Princípios de engenharia permanentes
+├── components-registry.md           # Registro de componentes reutilizáveis
 ├── agents/
-│   ├── README.md               # Visão geral do pacote de agentes
+│   ├── README.md                    # Visão geral dos agents (orchestrators)
+│   ├── agent-base.md                # Base compartilhada para todos os agents
+│   ├── bugfix-agent.md
+│   ├── component-creation-agent.md
+│   ├── component-refactor-agent.md
+│   ├── feature-module-agent.md
+│   └── improvement-agent.md
+├── sub-agents/
+│   ├── README.md                    # Visão geral dos sub-agents (especialistas)
 │   ├── scope-mapper.md
 │   ├── style-reference-scout.md
 │   ├── refactor-engineer.md
 │   ├── test-engineer.md
 │   └── quality-guardian.md
 ├── skills/
-│   ├── change-orchestration-base.md
-│   ├── component-creation-orchestrator.md
-│   ├── component-refactor-orchestrator.md
-│   ├── bugfix-orchestrator.md
-│   ├── improvement-orchestrator.md
-│   └── feature-module-orchestrator.md
+│   ├── README.md                    # Visão geral das skills (capabilities compostas)
+│   ├── read-project-context.md
+│   ├── classify-change.md
+│   ├── build-scope-map.md
+│   ├── collect-visual-references.md
+│   ├── build-risk-matrix.md
+│   ├── write-tests.md
+│   ├── run-audit-checklist.md
+│   └── document-aicontext.md
+├── tools/
+│   ├── README.md                    # Visão geral das tools (operações atômicas)
+│   ├── inspect-files.md
+│   ├── search-codebase.md
+│   ├── run-command.md
+│   └── emit-structured-output.md
 └── templates/
     ├── spec-template.md
     ├── clarify-template.md
@@ -32,16 +49,49 @@ ai-dev-framework/
     └── report-template.md
 ```
 
+## Hierarquia
+
+```
+Agent (goal de alto nível)
+  ├── invoca Sub-agents   → especialistas com missão única
+  │     └── usam Skills  → capabilities compostas
+  │           └── usam Tools → operações atômicas
+  ├── usa Skills diretamente quando aplicável
+  └── usa Tools diretamente quando aplicável
+```
+
 ## Como usar em um novo projeto
 
 1. Copie ou faça referência a `agents.md` e `constitution.md` na raiz do projeto.
-2. Copie os diretórios `agents/`, `skills/` e `templates/` para um diretório de contexto (ex: `context/`).
+2. Copie os diretórios `agents/`, `sub-agents/`, `skills/`, `tools/` e `templates/` para um diretório de contexto (ex: `context/`).
 3. Adapte `agents.md` com a stack, comandos e mapa de contexto do projeto específico.
-4. Use as skills como comandos Claude (`/component-creation-orchestrator`, `/bugfix-orchestrator`, etc.).
+4. Use os agents como ponto de entrada (`bugfix-agent`, `feature-module-agent`, etc.).
 
 ## Convenções
 
-- **Agentes**: papéis especializados invocados pelos orchestrators.
-- **Skills**: workflows de orquestração que combinam agentes em sequência.
+- **Agents**: orchestrators com goal de alto nível. Invocam sub-agents, skills e tools.
+- **Sub-agents**: especialistas com missão única, invocados pelos agents.
+- **Skills**: capabilities compostas e reutilizáveis, usadas por agents e sub-agents.
+- **Tools**: operações atômicas — leitura, busca, execução e output.
 - **Templates**: estruturas de artefatos para spec, plano, tarefas, implementação e relatório.
-- **Pipeline padrão**: `scope-mapper → style-reference-scout → refactor-engineer → test-engineer → quality-guardian`.
+
+## Pipeline padrão
+
+```
+Agent (ex: bugfix-agent)
+  └── scope-mapper (condicional)
+        └── skills: read-project-context, build-scope-map
+        └── tools: inspect-files, search-codebase, emit-structured-output
+  └── style-reference-scout (condicional)
+        └── skills: read-project-context, collect-visual-references
+        └── tools: inspect-files, emit-structured-output
+  └── refactor-engineer
+        └── skills: read-project-context
+        └── tools: inspect-files, search-codebase, emit-structured-output
+  └── test-engineer
+        └── skills: read-project-context, build-risk-matrix, write-tests
+        └── tools: run-command, emit-structured-output
+  └── quality-guardian (gate final)
+        └── skills: read-project-context, run-audit-checklist
+        └── tools: inspect-files, emit-structured-output
+```
