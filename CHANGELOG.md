@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.2.1
+
+### Docs
+
+- README reescrito com exemplos de uso para cada agent, sub-agent, skill e tool
+- Seção de slash commands com lista completa dos 23 comandos disponíveis
+
 ## v1.2.0
 
 ### Skills
