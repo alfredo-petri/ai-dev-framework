@@ -419,6 +419,18 @@ Pergunta se modo automático ou manual. Agrupa arquivos por domínio, classifica
 
 ---
 
+### open-framework-issue
+
+Abre issue no repositório do próprio framework via perguntas guiadas.
+
+```
+/ai-df-skill-open-framework-issue
+```
+
+Coleta categoria, título, descrição, contexto, evidências e critérios de aceite em sequência. Faz follow-up quando resposta incompleta. Cria a label se não existir e submete via `gh issue create` em `alfredo-petri/ai-dev-framework`. Requer `gh` autenticado.
+
+---
+
 ### search-update
 
 Verifica atualizações disponíveis do framework (uma vez por sessão).
@@ -584,6 +596,7 @@ Após `ai-dev-framework link claude`, 23 slash commands ficam disponíveis:
 /ai-df-skill-commit-changes
 /ai-df-skill-open-github-issue
 /ai-df-skill-close-github-issue
+/ai-df-skill-open-framework-issue
 /ai-df-skill-search-update
 /ai-df-skill-update
 ```

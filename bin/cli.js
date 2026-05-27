@@ -121,6 +121,7 @@ const SKILL_WRAPPERS = [
   { name: 'ai-df-skill-commit-changes',             file: 'skills/commit-changes.md',             description: 'Commit changes skill — groups and executes semantic commits by functionality.' },
   { name: 'ai-df-skill-open-github-issue',           file: 'skills/open-github-issue.md',           description: 'Open GitHub issue skill — opens an issue with a correlated label before starting any implementation.' },
   { name: 'ai-df-skill-close-github-issue',          file: 'skills/close-github-issue.md',          description: 'Close GitHub issue skill — comments implementation summary and closes the issue after commit-changes.' },
+  { name: 'ai-df-skill-open-framework-issue',        file: 'skills/open-framework-issue.md',        description: 'Open framework issue skill — guides user through structured questions and opens an issue in the ai-dev-framework repository.' },
   { name: 'ai-df-skill-search-update',              file: 'skills/search-update.md',              description: 'Search update skill — checks for available framework updates once per session.' },
   { name: 'ai-df-skill-update',                     file: 'skills/update.md',                     description: 'Update skill — updates the ai-dev-framework to the latest version after user approval.' },
 ];

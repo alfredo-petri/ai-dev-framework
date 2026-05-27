@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.4.0
+
+### Skills
+
+- `open-framework-issue` — guia o usuário por perguntas estruturadas (categoria, título, descrição, contexto, evidências, critérios de aceite) e abre issue no repositório `alfredo-petri/ai-dev-framework` via `gh issue create`
+- Slash command registrado: `/ai-df-skill-open-framework-issue`
+
 ## v1.3.1
 
 ### CLI
