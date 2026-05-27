@@ -20,7 +20,9 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 | `link codex` | OpenAI Codex CLI | `~/.codex/instructions.md` |
 | `link copilot` | GitHub Copilot CLI (`copilot` binary) | 23 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
-| `link --all` | Todos os detectados | — |
+| `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
+
+`link --all` também injeta automaticamente a config global nas IDEs detectadas (Cursor e Windsurf), sem necessidade de rodar `inject --global` separado.
 
 ### IDE plugins
 
