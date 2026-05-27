@@ -1,6 +1,17 @@
 # Changelog
 
-## v1.4.0
+## v1.3.0
+
+### CLI
+
+- Novo comando `inject` — injeta o framework em projetos e configurações globais de IDEs
+  - `inject` (sem flags): cria arquivos de instrução no diretório atual para todas as IDEs
+  - `inject --global`: injeta na config global das IDEs detectadas
+  - `inject [ide...]`: filtra IDEs específicas (`copilot`, `cursor`, `windsurf`)
+  - IDEs suportadas: VS Code + Copilot, Cursor, Windsurf
+- `link --all` agora injeta config global nas IDEs detectadas (Cursor, Windsurf) além dos CLI agents
+- `update` também re-linka IDEs globais após atualização
+- `status` exibe seção **IDEs (global)** com detecção por IDE
 
 ### Skills
 
@@ -10,28 +21,19 @@
 ### GitHub Actions
 
 - `auto-label-issues` — aplica label automaticamente em issues recém-abertas com base no prefixo do título (`feat:`, `fix:`, etc.) ou no corpo da issue; cria a label no repositório se não existir
-- `npm-publish` — publica automaticamente no npm a cada push na `master`; verifica se versão já existe no npm, se `CHANGELOG.md` tem entrada para a versão atual e se `README.md` não está vazio antes de publicar; requer secret `NPM_TOKEN`
+- `npm-publish` — publica automaticamente no npm a cada push na `master`; verifica versão, entrada no CHANGELOG e README antes de publicar; requer secret `NPM_TOKEN`
 
-## v1.3.1
-
-### CLI
-
-- `link --all` agora injeta config global nas IDEs detectadas (Cursor, Windsurf) além dos CLI agents
-- `update` também re-linka IDEs globais após atualização
-
-## v1.3.0
+## v1.2.4
 
 ### CLI
 
-- Novo comando `inject` — injeta o framework em projetos e configurações globais de IDEs
-- `inject` (sem flags): cria arquivos de instrução no diretório atual para todas as IDEs
-- `inject --global`: injeta na config global das IDEs detectadas
-- `inject [ide...]`: filtra IDEs específicas (`copilot`, `cursor`, `windsurf`)
-- IDEs suportadas:
-  - **VS Code + GitHub Copilot**: `.github/copilot-instructions.md` (project-only)
-  - **Cursor**: `.cursor/rules/ai-dev-framework.mdc` com frontmatter `alwaysApply: true` (project + global)
-  - **Windsurf**: `.windsurfrules` (project) / `~/.codeium/windsurf/memories/global_rules.md` (global)
-- `status` agora exibe seção **IDEs (global)** com detecção por IDE
+- `link --all` e README atualizados para refletir suporte a IDEs globais
+
+## v1.2.3
+
+### CLI
+
+- Detecção e link do GitHub Copilot CLI corrigidos para binário `copilot` e formato nativo de skills (`~/.copilot/skills/`)
 
 ## v1.2.2
 
