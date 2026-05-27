@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.3.0
+
+### CLI
+
+- Novo comando `inject` — injeta o framework em projetos e configurações globais de IDEs
+- `inject` (sem flags): cria arquivos de instrução no diretório atual para todas as IDEs
+- `inject --global`: injeta na config global das IDEs detectadas
+- `inject [ide...]`: filtra IDEs específicas (`copilot`, `cursor`, `windsurf`)
+- IDEs suportadas:
+  - **VS Code + GitHub Copilot**: `.github/copilot-instructions.md` (project-only)
+  - **Cursor**: `.cursor/rules/ai-dev-framework.mdc` com frontmatter `alwaysApply: true` (project + global)
+  - **Windsurf**: `.windsurfrules` (project) / `~/.codeium/windsurf/memories/global_rules.md` (global)
+- `status` agora exibe seção **IDEs (global)** com detecção por IDE
+
 ## v1.2.2
 
 ### CLI

@@ -179,6 +179,69 @@ function removeCopilotSkillWrappers(skillsDir) {
   }
 }
 
+function writeCursorRule(filePath, content) {
+  const marker = '<!-- ai-dev-framework -->';
+  const block = `${marker}\n${content}\n${marker}\n`;
+  const existing = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf8') : '';
+  let updated;
+  if (existing.includes(marker)) {
+    updated = existing.replace(new RegExp(`${marker}[\\s\\S]*?${marker}\n?`), block);
+  } else if (existing.trim().startsWith('---')) {
+    updated = existing + '\n' + block;
+  } else {
+    const frontmatter = '---\ndescription: AI Dev Framework — agents, skills and constitution reference\nalwaysApply: true\n---\n\n';
+    updated = frontmatter + block;
+  }
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  fs.writeFileSync(filePath, updated);
+}
+
+// ─── IDE definitions ─────────────────────────────────────────────────────────
+
+const IDES = {
+  copilot: {
+    name: 'VS Code + GitHub Copilot',
+    supportsGlobal: false,
+    detectGlobal: () => false,
+    linkGlobal: null,
+    linkProject(projectDir) {
+      const target = path.join(projectDir, '.github', 'copilot-instructions.md');
+      injectBlock(target, frameworkBlock());
+      console.log(`  ✓ ${target}`);
+    },
+  },
+  cursor: {
+    name: 'Cursor',
+    supportsGlobal: true,
+    detectGlobal: () => commandExists('cursor') || fs.existsSync(path.join(os.homedir(), '.cursor')),
+    linkGlobal() {
+      const target = path.join(os.homedir(), '.cursor', 'rules', 'ai-dev-framework.mdc');
+      writeCursorRule(target, frameworkBlock());
+      console.log(`  ✓ ${target}`);
+    },
+    linkProject(projectDir) {
+      const target = path.join(projectDir, '.cursor', 'rules', 'ai-dev-framework.mdc');
+      writeCursorRule(target, frameworkBlock());
+      console.log(`  ✓ ${target}`);
+    },
+  },
+  windsurf: {
+    name: 'Windsurf',
+    supportsGlobal: true,
+    detectGlobal: () => commandExists('windsurf') || fs.existsSync(path.join(os.homedir(), '.codeium', 'windsurf')),
+    linkGlobal() {
+      const target = path.join(os.homedir(), '.codeium', 'windsurf', 'memories', 'global_rules.md');
+      injectBlock(target, frameworkBlock());
+      console.log(`  ✓ ${target}`);
+    },
+    linkProject(projectDir) {
+      const target = path.join(projectDir, '.windsurfrules');
+      injectBlock(target, frameworkBlock());
+      console.log(`  ✓ ${target}`);
+    },
+  },
+};
+
 // ─── Agent definitions ───────────────────────────────────────────────────────
 
 const AGENTS = {
@@ -379,10 +442,17 @@ function status() {
     }
   }
 
-  console.log('\nAgents:');
+  console.log('\nCLI Agents:');
   for (const [key, cfg] of Object.entries(AGENTS)) {
     const detected = cfg.detect();
     console.log(`  ${detected ? '✓' : '-'} ${key.padEnd(10)} ${cfg.name}`);
+  }
+
+  console.log('\nIDEs (global):');
+  for (const [key, ide] of Object.entries(IDES)) {
+    const detected = ide.supportsGlobal ? ide.detectGlobal() : false;
+    const note = ide.supportsGlobal ? '' : ' (project-only)';
+    console.log(`  ${detected ? '✓' : '-'} ${key.padEnd(10)} ${ide.name}${note}`);
   }
   console.log('');
 }
@@ -399,28 +469,79 @@ function uninstall() {
   console.log(`✓ Skills removed from ${copilotSkillsDir}`);
 }
 
+function inject(args) {
+  if (!fs.existsSync(FRAMEWORK_DIR)) {
+    console.error('Framework not installed. Run "ai-dev-framework install" first.');
+    process.exit(1);
+  }
+
+  const isGlobal = args.includes('--global');
+  const ideFilter = args.filter(a => a !== '--global');
+
+  const targets = ideFilter.length > 0
+    ? ideFilter.map(k => {
+        if (!IDES[k]) {
+          console.error(`Unknown IDE: ${k}. Available: ${Object.keys(IDES).join(', ')}`);
+          process.exit(1);
+        }
+        return [k, IDES[k]];
+      })
+    : Object.entries(IDES);
+
+  const projectDir = process.cwd();
+
+  for (const [key, ide] of targets) {
+    if (isGlobal) {
+      if (!ide.supportsGlobal) {
+        console.log(`  - ${key} (${ide.name}): global config not supported`);
+        continue;
+      }
+      if (!ide.detectGlobal()) {
+        console.log(`  - ${key} (${ide.name}): not detected`);
+        continue;
+      }
+      console.log(`Injecting ${ide.name} (global)...`);
+      ide.linkGlobal();
+    } else {
+      console.log(`Injecting ${ide.name} (project)...`);
+      ide.linkProject(projectDir);
+    }
+  }
+}
+
 function help() {
   console.log(`
-Usage: ai-dev-framework <command> [agent]
+Usage: ai-dev-framework <command> [options]
 
 Commands:
-  install          Copy framework files to ~/.ai-dev-framework/
-  link [agent]     Inject framework reference into agent global config
-  check-update     Check GitHub for a newer version and list changes
-  update           Install latest version from GitHub
-  status           Show install state, version and detected agents
-  uninstall        Remove ~/.ai-dev-framework/
+  install              Copy framework files to ~/.ai-dev-framework/
+  link [agent]         Inject framework reference into CLI agent global config
+  inject [ide...]      Inject framework reference into IDE project config
+  inject --global      Inject into IDE global config (where supported)
+  check-update         Check GitHub for a newer version and list changes
+  update               Install latest version from GitHub
+  status               Show install state, version and detected agents
+  uninstall            Remove ~/.ai-dev-framework/
 
-Agents:
+CLI Agents (link):
   claude           Claude Code  (~/.claude/CLAUDE.md)
   codex            OpenAI Codex CLI  (~/.codex/instructions.md)
-  copilot          GitHub Copilot CLI  (~/.config/gh-copilot/instructions.md)
+  copilot          GitHub Copilot CLI  (~/.copilot/skills/)
   gemini           Gemini CLI  (~/.gemini/GEMINI.md)
-  --all            All detected agents (default for link)
+  --all            All detected agents (default)
+
+IDEs (inject):
+  copilot          VS Code + GitHub Copilot  (.github/copilot-instructions.md)
+  cursor           Cursor  (.cursor/rules/ai-dev-framework.mdc)
+  windsurf         Windsurf  (.windsurfrules)
 
 Examples:
   ai-dev-framework install
   ai-dev-framework link --all
+  ai-dev-framework inject                    # all IDEs, current project
+  ai-dev-framework inject cursor             # cursor only, current project
+  ai-dev-framework inject --global           # all IDEs, global config
+  ai-dev-framework inject --global windsurf  # windsurf global only
   ai-dev-framework check-update
   ai-dev-framework update
   ai-dev-framework status
@@ -439,6 +560,7 @@ const [,, command, ...args] = process.argv;
     case 'check-update-if-needed': await checkUpdateIfNeeded(); break;
     case 'update':         await update(); break;
     case 'status':         status(); break;
+    case 'inject':         inject(args); break;
     case 'uninstall':      uninstall(); break;
     default:               help(); break;
   }
