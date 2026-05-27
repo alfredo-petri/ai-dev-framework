@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.1
+
+### CLI
+
+- `link --all` agora injeta config global nas IDEs detectadas (Cursor, Windsurf) além dos CLI agents
+- `update` também re-linka IDEs globais após atualização
+
 ## v1.3.0
 
 ### CLI
