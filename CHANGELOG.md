@@ -5,7 +5,11 @@
 ### Skills
 
 - `open-framework-issue` — guia o usuário por perguntas estruturadas (categoria, título, descrição, contexto, evidências, critérios de aceite) e abre issue no repositório `alfredo-petri/ai-dev-framework` via `gh issue create`
-- Slash command registrado: `/ai-df-skill-open-framework-issue`
+- Slash command registrado: `/ai-df-skill-open-framework-issue` (total: 24 slash commands)
+
+### GitHub Actions
+
+- `auto-label-issues` — aplica label automaticamente em issues recém-abertas com base no prefixo do título (`feat:`, `fix:`, etc.) ou no corpo da issue; cria a label no repositório se não existir
 
 ## v1.3.1
 

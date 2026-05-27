@@ -425,9 +425,15 @@ Abre issue no repositório do próprio framework via perguntas guiadas.
 
 ```
 /ai-df-skill-open-framework-issue
+encontrei um bug no comando inject — ele sobrescreve o .windsurfrules existente sem preservar conteúdo anterior
 ```
 
-Coleta categoria, título, descrição, contexto, evidências e critérios de aceite em sequência. Faz follow-up quando resposta incompleta. Cria a label se não existir e submete via `gh issue create` em `alfredo-petri/ai-dev-framework`. Requer `gh` autenticado.
+```
+/ai-df-skill-open-framework-issue
+quero sugerir suporte ao Zed como nova IDE no comando inject
+```
+
+Coleta em sequência: categoria (`feat`/`fix`/`docs`/`style`/`refactor`/`test`/`chore`), título, descrição, contexto, evidências (obrigatório para `fix`) e critérios de aceite. Faz follow-up quando resposta incompleta. Cria a label no repo se não existir e submete via `gh issue create` em `alfredo-petri/ai-dev-framework`. Requer `gh` autenticado.
 
 ---
 
@@ -559,6 +565,7 @@ ai-dev-framework/
 │   ├── commit-changes.md
 │   ├── open-github-issue.md
 │   ├── close-github-issue.md
+│   ├── open-framework-issue.md
 │   ├── search-update.md
 │   └── update.md
 └── tools/                           # Operações atômicas
@@ -570,7 +577,7 @@ ai-dev-framework/
 
 ## Slash commands no Claude Code
 
-Após `ai-dev-framework link claude`, 23 slash commands ficam disponíveis:
+Após `ai-dev-framework link claude`, 24 slash commands ficam disponíveis:
 
 ```
 /ai-df-agent-bugfix

@@ -1,0 +1,74 @@
+name: Auto-label issues
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.issue.title;
+            const body = context.payload.issue.body || '';
+            const categories = ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'];
+
+            // Try title prefix first: "feat: ..." or "feat(scope): ..."
+            let category = null;
+            const titleMatch = title.match(/^(\w+)(\([^)]+\))?:/);
+            if (titleMatch && categories.includes(titleMatch[1])) {
+              category = titleMatch[1];
+            }
+
+            // Fallback: scan body for "categoria: feat" or "category: fix" patterns
+            if (!category) {
+              const bodyMatch = body.match(/categor[ia]+[:\s]+`?(\w+)`?/i);
+              if (bodyMatch && categories.includes(bodyMatch[1].toLowerCase())) {
+                category = bodyMatch[1].toLowerCase();
+              }
+            }
+
+            if (!category) {
+              console.log('No recognizable category found in title or body. Skipping.');
+              return;
+            }
+
+            // Ensure label exists
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: category,
+              });
+            } catch {
+              const colors = {
+                feat: '0075ca',
+                fix: 'd73a4a',
+                docs: '0075ca',
+                style: 'e4e669',
+                refactor: 'e4e669',
+                test: '0e8a16',
+                chore: 'ededed',
+              };
+              await github.rest.issues.createLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: category,
+                color: colors[category] || 'ededed',
+                description: `${category} changes`,
+              });
+              console.log(`Label "${category}" created.`);
+            }
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.payload.issue.number,
+              labels: [category],
+            });
+
+            console.log(`Label "${category}" applied to issue #${context.payload.issue.number}.`);
