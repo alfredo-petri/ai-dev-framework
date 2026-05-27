@@ -332,6 +332,15 @@ function link(agent) {
         console.log(`  - ${key} (${cfg.name}): not detected`);
       }
     }
+    console.log('');
+    for (const [key, ide] of Object.entries(IDES)) {
+      if (ide.supportsGlobal && ide.detectGlobal()) {
+        console.log(`Linking ${ide.name} (global)...`);
+        ide.linkGlobal();
+      } else if (ide.supportsGlobal) {
+        console.log(`  - ${key} (${ide.name}): not detected`);
+      }
+    }
     if (linked === 0) console.log('No agents detected.');
     return;
   }
@@ -412,6 +421,9 @@ async function update() {
   console.log('\nRe-linking agents...');
   for (const [, cfg] of Object.entries(AGENTS)) {
     if (cfg.detect()) cfg.link();
+  }
+  for (const [, ide] of Object.entries(IDES)) {
+    if (ide.supportsGlobal && ide.detectGlobal()) ide.linkGlobal();
   }
 
   recordCheck();
