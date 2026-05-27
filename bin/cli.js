@@ -147,6 +147,38 @@ function removeSkillWrappers(claudeDir) {
   }
 }
 
+function createCopilotSkillWrappers(skillsDir) {
+  fs.mkdirSync(skillsDir, { recursive: true });
+  let created = 0;
+  for (const wrapper of SKILL_WRAPPERS) {
+    const skillDir = path.join(skillsDir, wrapper.name);
+    fs.mkdirSync(skillDir, { recursive: true });
+    const canonicalPath = path.join(FRAMEWORK_DIR, wrapper.file);
+    const skillMd = [
+      '---',
+      `name: ${wrapper.name}`,
+      `description: >`,
+      `  ${wrapper.description}`,
+      '---',
+      '',
+      `Read the full content of \`${canonicalPath}\` and follow its instructions exactly for the task provided by the user.`,
+      '',
+    ].join('\n');
+    const readmeMd = `# ${wrapper.name}\n\n${wrapper.description}\n`;
+    fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skillMd);
+    fs.writeFileSync(path.join(skillDir, 'README.md'), readmeMd);
+    created++;
+  }
+  return created;
+}
+
+function removeCopilotSkillWrappers(skillsDir) {
+  for (const wrapper of SKILL_WRAPPERS) {
+    const skillDir = path.join(skillsDir, wrapper.name);
+    if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
+  }
+}
+
 // ─── Agent definitions ───────────────────────────────────────────────────────
 
 const AGENTS = {
@@ -173,11 +205,11 @@ const AGENTS = {
   },
   copilot: {
     name: 'GitHub Copilot CLI',
-    detect: () => commandExists('gh') && commandExists('github-copilot-cli'),
+    detect: () => commandExists('copilot') || fs.existsSync(path.join(os.homedir(), '.copilot')),
     link() {
-      const target = path.join(os.homedir(), '.config', 'gh-copilot', 'instructions.md');
-      injectBlock(target, frameworkBlock());
-      console.log(`  ✓ ${target}`);
+      const skillsDir = path.join(os.homedir(), '.copilot', 'skills');
+      const count = createCopilotSkillWrappers(skillsDir);
+      console.log(`  ✓ ${count} skills criados em ${skillsDir}`);
     },
   },
   gemini: {
@@ -359,9 +391,12 @@ function uninstall() {
   if (!fs.existsSync(FRAMEWORK_DIR)) { console.log('Not installed.'); return; }
   const claudeDir = path.join(os.homedir(), '.claude');
   if (fs.existsSync(claudeDir)) removeSkillWrappers(claudeDir);
+  const copilotSkillsDir = path.join(os.homedir(), '.copilot', 'skills');
+  if (fs.existsSync(copilotSkillsDir)) removeCopilotSkillWrappers(copilotSkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`✓ Removed ${FRAMEWORK_DIR}`);
   console.log(`✓ Slash commands removed from ${claudeDir}/commands`);
+  console.log(`✓ Skills removed from ${copilotSkillsDir}`);
 }
 
 function help() {
