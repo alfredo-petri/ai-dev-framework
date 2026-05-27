@@ -25,15 +25,17 @@
 
 ## v1.2.4
 
-### CLI
+### Docs
 
-- `link --all` e README atualizados para refletir suporte a IDEs globais
+- README atualizado com seção de IDE plugins e tabela de comandos `inject`
 
 ## v1.2.3
 
 ### CLI
 
 - Detecção e link do GitHub Copilot CLI corrigidos para binário `copilot` e formato nativo de skills (`~/.copilot/skills/`)
+- Adicionado `createCopilotSkillWrappers` — cria `SKILL.md` + `README.md` por skill em `~/.copilot/skills/<name>/`
+- `uninstall` remove skills do Copilot via `removeCopilotSkillWrappers`
 
 ## v1.2.2
 

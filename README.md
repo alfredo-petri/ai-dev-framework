@@ -627,10 +627,17 @@ Publica automaticamente no npm a cada push na branch `master`. Pré-condições 
 O fluxo recomendado para publicar uma nova versão:
 
 ```bash
-npm version patch   # ou minor / major
-# atualizar CHANGELOG.md com entrada para a nova versão
-git add . && git commit -m "chore(release): vX.Y.Z"
-git push            # Action publica automaticamente
+# 1. bumpar versão em package.json
+npm version patch   # ou minor / major — atualiza package.json e cria git tag
+
+# 2. adicionar entrada no CHANGELOG.md para a nova versão
+# ## vX.Y.Z
+# ...mudanças...
+
+# 3. commitar e fazer push — a Action publica automaticamente
+git add package.json CHANGELOG.md
+git commit -m "chore(release): vX.Y.Z"
+git push
 ```
 
 ---
