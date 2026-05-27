@@ -16,9 +16,9 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 
 | Comando | Agent | Config injetada |
 |---------|-------|-----------------|
-| `link claude` | Claude Code | `~/.claude/CLAUDE.md` + 23 slash commands em `~/.claude/commands/` |
+| `link claude` | Claude Code | `~/.claude/CLAUDE.md` + 24 slash commands em `~/.claude/commands/` |
 | `link codex` | OpenAI Codex CLI | `~/.codex/instructions.md` |
-| `link copilot` | GitHub Copilot CLI (`copilot` binary) | 23 skills em `~/.copilot/skills/` |
+| `link copilot` | GitHub Copilot CLI (`copilot` binary) | 24 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
 | `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
 
@@ -607,6 +607,33 @@ Após `ai-dev-framework link claude`, 24 slash commands ficam disponíveis:
 /ai-df-skill-search-update
 /ai-df-skill-update
 ```
+
+## CI / GitHub Actions
+
+### auto-label-issues
+
+Aplica label automaticamente em issues recém-abertas com base no prefixo do título (`feat:`, `fix:`, `docs:`, etc.) ou no corpo da issue. Cria a label no repositório se não existir.
+
+### npm-publish
+
+Publica automaticamente no npm a cada push na branch `master`. Pré-condições verificadas antes de publicar:
+
+- Versão em `package.json` ainda não existe no registro npm
+- `CHANGELOG.md` tem entrada `## v<versão>` correspondente
+- `README.md` existe e não está vazio
+
+**Setup:** adicionar `NPM_TOKEN` como secret no repositório (`Settings → Secrets → Actions`).
+
+O fluxo recomendado para publicar uma nova versão:
+
+```bash
+npm version patch   # ou minor / major
+# atualizar CHANGELOG.md com entrada para a nova versão
+git add . && git commit -m "chore(release): vX.Y.Z"
+git push            # Action publica automaticamente
+```
+
+---
 
 ## Como usar em um projeto específico (sem instalação global)
 

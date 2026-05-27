@@ -10,6 +10,7 @@
 ### GitHub Actions
 
 - `auto-label-issues` — aplica label automaticamente em issues recém-abertas com base no prefixo do título (`feat:`, `fix:`, etc.) ou no corpo da issue; cria a label no repositório se não existir
+- `npm-publish` — publica automaticamente no npm a cada push na `master`; verifica se versão já existe no npm, se `CHANGELOG.md` tem entrada para a versão atual e se `README.md` não está vazio antes de publicar; requer secret `NPM_TOKEN`
 
 ## v1.3.1
 
