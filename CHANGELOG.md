@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.1
+
+### Docs
+
+- `CLAUDE.md` criado na raiz do repo com regras de release flow para Claude Code
+- Regras de release adicionadas em `agents.md`, `.github/copilot-instructions.md`, `.cursor/rules/ai-dev-framework.mdc` e `.windsurfrules` — cobre Claude Code, Codex, Copilot IDE, Cursor e Windsurf neste repositório
+
 ## v1.3.0
 
 ### CLI
