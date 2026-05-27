@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.2.2
+
+### CLI
+
+- Corrigido: detecção do GitHub Copilot CLI agora checa binário `copilot` ou diretório `~/.copilot/` — antes exigia `github-copilot-cli` (binário npm descontinuado)
+- `link copilot` cria skills em `~/.copilot/skills/<name>/{SKILL.md,README.md}` no formato nativo do Copilot CLI — antes escrevia em `~/.config/gh-copilot/instructions.md` (inexistente)
+- `uninstall` agora remove skills do Copilot CLI em `~/.copilot/skills/`
+
 ## v1.2.1
 
 ### Docs
