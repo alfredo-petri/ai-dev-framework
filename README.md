@@ -12,26 +12,53 @@ ai-dev-framework link --all
 
 Instala o framework em `~/.ai-dev-framework/` e injeta referência automática nos AI agents CLI detectados.
 
-### AI agents suportados
+### AI agents CLI suportados
 
 | Comando | Agent | Config injetada |
 |---------|-------|-----------------|
 | `link claude` | Claude Code | `~/.claude/CLAUDE.md` + 23 slash commands em `~/.claude/commands/` |
 | `link codex` | OpenAI Codex CLI | `~/.codex/instructions.md` |
-| `link copilot` | GitHub Copilot CLI | `~/.config/gh-copilot/instructions.md` |
+| `link copilot` | GitHub Copilot CLI (`copilot` binary) | 23 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
 | `link --all` | Todos os detectados | — |
+
+### IDE plugins
+
+Para injetar em IDEs, use `inject` no diretório raiz do projeto:
+
+```bash
+# todas as IDEs no projeto atual
+ai-dev-framework inject
+
+# IDE específica
+ai-dev-framework inject cursor
+ai-dev-framework inject copilot
+ai-dev-framework inject windsurf
+
+# config global (onde suportado)
+ai-dev-framework inject --global
+ai-dev-framework inject --global windsurf
+```
+
+| IDE | Escopo | Arquivo gerado |
+|-----|--------|----------------|
+| VS Code + GitHub Copilot | project | `.github/copilot-instructions.md` |
+| Cursor | project + global | `.cursor/rules/ai-dev-framework.mdc` |
+| Windsurf | project + global | `.windsurfrules` / `~/.codeium/windsurf/memories/global_rules.md` |
 
 ### Comandos disponíveis
 
 ```bash
-ai-dev-framework install       # instala framework em ~/.ai-dev-framework/
-ai-dev-framework link --all    # linka a todos os agents detectados
-ai-dev-framework link claude   # linka apenas ao Claude Code
-ai-dev-framework check-update  # verifica atualizações no GitHub
-ai-dev-framework update        # atualiza para a versão mais recente
-ai-dev-framework status        # mostra estado da instalação e agents detectados
-ai-dev-framework uninstall     # remove ~/.ai-dev-framework/ e slash commands
+ai-dev-framework install              # instala framework em ~/.ai-dev-framework/
+ai-dev-framework link --all           # linka a todos os CLI agents detectados
+ai-dev-framework link claude          # linka apenas ao Claude Code
+ai-dev-framework inject               # injeta em todas as IDEs no projeto atual
+ai-dev-framework inject --global      # injeta na config global das IDEs detectadas
+ai-dev-framework inject cursor        # injeta apenas no Cursor (projeto atual)
+ai-dev-framework check-update         # verifica atualizações no GitHub
+ai-dev-framework update               # atualiza para a versão mais recente
+ai-dev-framework status               # mostra estado da instalação, CLI agents e IDEs
+ai-dev-framework uninstall            # remove ~/.ai-dev-framework/ e configs injetadas
 ```
 
 ---
