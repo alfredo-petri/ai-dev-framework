@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.1
+
+### Skills
+
+- `project-init`: perguntas expandidas para 24 questões em 5 grupos, cada uma com sugestões guiadas (checkboxes/letras) + opção de descrever livremente; mapeamento explícito pergunta → seção da `constitution.md`; racional gerado automaticamente quando conteúdo for específico
+
 ## v1.5.0
 
 ### Skills
