@@ -1,5 +1,23 @@
 # Changelog
 
+## v1.6.0
+
+### Agents / Sub-agents / Skills
+
+- **Padrão Interface/Adapter obrigatório** em todos os agents, sub-agents e skills
+- `agent-base`: nova seção "Padrão Interface/Adapter" — regra transversal aplicada a todos os agents; define que toda funcionalidade nova define contrato/interface antes da implementação concreta
+- `feature-module-agent`: novo artefato obrigatório `contracts.md` na pasta `specs/[###-slug]/`; workflow atualizado para aprovar `contracts.md` junto com `plan.md`
+- `component-creation-agent`: workflow atualizado — step de definição de interface/contrato antes do código; "Não fazer" expandido
+- `component-refactor-agent`: nova seção "Padrão Interface/Adapter na refatoração" — regras para extrair interfaces ao componentizar e refatorar integrações
+- `improvement-agent`: regras obrigatórias expandidas — toda nova integração exige interface correspondente
+- `bugfix-agent`: regras obrigatórias expandidas — fixes não bypassam contratos existentes
+- `refactor-engineer`: nova seção "Padrão Interface/Adapter" + workflow atualizado para definir interfaces antes de extrações
+- `write-tests`: nova regra — testar via interface/contrato, não via implementação concreta; sinalizar ausência de interface como débito
+
+### Templates
+
+- Novo template `contracts-template.md` — estrutura para definição de interfaces, adapters e componentes base em specs de feature
+
 ## v1.5.3
 
 ### Skills

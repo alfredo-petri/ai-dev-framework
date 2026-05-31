@@ -53,14 +53,16 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 
 1. Delimitar papel e ponto de integração do componente
 2. Decidir se feature-local ou reutilizável em `components/`
-3. Coletar referência visual quando aplicável (invocar `style-reference-scout`)
-4. Criar/extrair componente com tipagem explícita (invocar `refactor-engineer`)
-5. Criar hooks/services/types/helpers apenas quando necessidade real
-6. Atualizar consumidores e contratos afetados
-7. Atualizar `components-registry.md`
-8. Documentar componente em `aicontext/` (invocar `document-aicontext`)
-9. Criar testes (invocar `test-engineer`)
-10. Auditar mudança (invocar `quality-guardian`)
+3. **Definir interface/contrato do componente** — props, eventos, comportamento público antes de qualquer código
+4. Coletar referência visual quando aplicável (invocar `style-reference-scout`)
+5. Criar implementação concreta satisfazendo o contrato definido (invocar `refactor-engineer`)
+6. Se componente tem variantes ou pode ser estendido: criar `BaseComponent` abstrato + implementações como adapters
+7. Criar hooks/services/types/helpers apenas quando necessidade real — sempre com interface antes da implementação
+8. Atualizar consumidores para referenciar interface/contrato, não implementação direta
+9. Atualizar `components-registry.md` — registrar interface e adapter(s) separadamente
+10. Documentar contrato em `aicontext/` (invocar `document-aicontext`)
+11. Criar testes via contrato/interface (invocar `test-engineer`)
+12. Auditar mudança (invocar `quality-guardian`)
 
 ## Perguntar ao usuário apenas quando
 
@@ -88,3 +90,5 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 - Não esconder regra de negócio dentro do JSX
 - Não alterar contratos silenciosamente
 - Não pular testes ou auditoria final
+- Não criar implementação concreta sem definir interface/contrato primeiro
+- Não referenciar implementação concreta onde a interface deve ser usada

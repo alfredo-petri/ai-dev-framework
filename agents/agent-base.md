@@ -44,6 +44,27 @@ Se o repositório pode responder, não pergunte.
 - Toda mudança relevante termina com testes e auditoria final
 - Toda mudança de componente/feature evita regressão, side effect ou alteração silenciosa de contrato
 
+## Padrão Interface/Adapter (obrigatório)
+
+Todo componente, serviço, integração ou funcionalidade nova DEVE seguir o padrão interface/adapter:
+
+1. **Defina o contrato primeiro** — interface ou classe base abstrata antes de qualquer implementação concreta
+2. **Implemente como adapter** — toda implementação concreta é um adapter que satisfaz o contrato
+3. **Consuma pelo contrato** — código consumidor referencia a interface, nunca a implementação direta
+
+Exemplos obrigatórios:
+- Conexão com banco → `IDatabaseConnection` interface + `PostgresAdapter`, `MongoAdapter`
+- Componente base → `BaseComponent` abstrato + implementações concretas por variante
+- Serviço externo → `IPaymentGateway` interface + `StripeAdapter`, `PaypalAdapter`
+- Repositório de dados → `IUserRepository` interface + `PrismaUserRepository`, `InMemoryUserRepository`
+
+Quando adaptar código existente:
+- Extraia a interface do contrato atual antes de refatorar
+- Nunca quebre consumidores existentes sem aprovação explícita
+- Registre novos contratos em `aicontext/<modulo>.md`
+
+Exceção: lógica trivial local sem integração ou extensão prevista — documentar decisão em `clarify.md`.
+
 ## Skills disponíveis
 
 Agents podem invocar qualquer skill em `skills/`:

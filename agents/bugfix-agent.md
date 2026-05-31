@@ -44,6 +44,8 @@ Não use `style-reference-scout` por padrão.
 - Corrija no menor ponto viável sem esconder causa estrutural relevante
 - Crie testes reproduzindo e prevenindo regressão
 - Audite a mudança ao final
+- Se o bug está em implementação concreta sem interface: corrigir sem introduzir nova interface (escopo fix); documentar em `clarify.md` que extração de interface é débito técnico
+- Não usar workaround que quebre ou bypass contrato/interface existente
 
 ## Perguntar ao usuário apenas quando
 

@@ -50,15 +50,24 @@
 - Lógica não trivial vai para hooks, services, utils, funções auxiliares
 - Registre componentes novos ou refatorados com potencial de reuso em `components-registry.md`
 
+## Padrão Interface/Adapter
+
+- Toda extração de serviço, repositório, cliente HTTP, conexão com banco ou integração externa: criar interface antes da classe concreta
+- Toda componentização com variantes previstas: criar `BaseComponent`/abstrato + adapters concretos
+- Consumidores do código extraído referenciam interface, nunca a implementação direta
+- Se código existente não tem interface e o escopo passa por ele: extrair interface primeiro, depois refatorar
+- Nomear adapters com sufixo descritivo da tecnologia: `PostgresUserRepository`, `StripePaymentAdapter`, `RedisSessionStore`
+
 ## Workflow
 
 1. Invocar `read-project-context` — ler constitution, agents.md, contexto de domínio
 2. Invocar `inspect-files` — inspecionar código real da seção
 3. Identificar responsabilidades: renderização, estado, regras de negócio, side effects, integrações
 4. Definir menor escopo de refatoração que resolve o problema
-5. Extrair apenas o necessário: subcomponentes, hooks, services, types, utilitários
-6. Preservar contratos, comportamento e feedback visual
-7. Invocar `emit-structured-output` — sinalizar o que o test-engineer deve cobrir
+5. **Definir interfaces/contratos** antes de qualquer extração — para cada serviço, repositório ou integração identificada
+6. Extrair apenas o necessário: subcomponentes, hooks, services, types, utilitários — sempre seguindo o padrão interface/adapter
+7. Preservar contratos, comportamento e feedback visual
+8. Invocar `emit-structured-output` — sinalizar interfaces criadas e o que o test-engineer deve cobrir
 
 ## Limites e bloqueio
 

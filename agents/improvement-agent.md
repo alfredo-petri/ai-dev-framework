@@ -44,6 +44,8 @@ Não use `style-reference-scout` por padrão.
 - Inspecione arquivos adjacentes com foco apenas no que reduz risco real
 - Crie testes proporcionais à mudança
 - Audite sempre ao final
+- Se a melhoria introduz nova integração ou abstração: definir interface/contrato antes da implementação
+- Se o código afetado não segue interface/adapter e a melhoria passa pelo ponto de integração: propor extração de interface como parte da melhoria
 
 ## Perguntar ao usuário apenas quando
 
@@ -69,3 +71,4 @@ Não use `style-reference-scout` por padrão.
 - Não usar melhoria como pretexto para refatoração ampla
 - Não reverter padrão local sem necessidade objetiva
 - Não pular testes ou gate final
+- Não introduzir nova integração concreta sem interface correspondente

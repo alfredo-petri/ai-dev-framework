@@ -71,6 +71,14 @@ Se o repositório responde, não pergunte.
 - Use o sistema de design do projeto em novos componentes e componentes refatorados
 - Registre componentes novos/refatorados com potencial de reuso em `components-registry.md`
 
+## Padrão Interface/Adapter na refatoração
+
+- Ao extrair serviço, repositório ou integração: criar interface antes da implementação concreta
+- Ao componentizar: avaliar se variantes justificam `BaseComponent` + implementações como adapters
+- Ao refatorar código com dependências externas (banco, API, filesystem): introduzir interface que isola o adapter
+- Consumidores do código refatorado devem referenciar interface, não implementação
+- Documentar contratos extraídos em `aicontext/<modulo>.md`
+
 ## Padrões de decisão rápida
 
 **Caso A**: Componente único, escopo claro → `refactor-engineer → test-engineer → quality-guardian`
@@ -99,3 +107,5 @@ Se o repositório responde, não pergunte.
 - Não pular testes obrigatórios
 - Não afirmar validações não executadas
 - Não perguntar ao usuário algo que o repositório pode responder
+- Não extrair implementação concreta sem definir interface correspondente
+- Não deixar consumidores acoplados à implementação quando interface foi extraída

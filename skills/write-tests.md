@@ -49,6 +49,8 @@ Invocar `tools/run-command.md` para rodar os testes e capturar resultado.
 - Validar comportamento, não trivialidade de implementação
 - Não afirmar cobertura não executada
 - Não inventar cenários não mapeados na matriz de risco
+- **Testar via interface/contrato, não via implementação concreta** — injetar adapters de teste (mocks, fakes, in-memory) satisfazendo a interface
+- Se código não tem interface e é testável apenas via implementação concreta: sinalizar no output que interface deve ser extraída antes de mockar dependências
 
 ## Saída esperada
 
