@@ -16,8 +16,10 @@ Invocada pelo sub-agent `scope-mapper` após `read-project-context`. Usada quand
    - Arquivos **fora do escopo**
    - Contratos e fluxos sensíveis que não podem quebrar
    - Estados e side effects que devem permanecer idênticos
-5. Identificar ambiguidades que o código não resolve
-6. Formular perguntas para o usuário apenas quando o repositório não responde
+5. **Mapear interfaces/contratos existentes** na área afetada — listar quais devem ser preservados
+6. **Identificar integrações sem interface** (banco, HTTP, serviços externos) dentro do escopo — sinalizar como débito do Princípio VIII
+7. Identificar ambiguidades que o código não resolve
+8. Formular perguntas para o usuário apenas quando o repositório não responde
 
 ## Regras
 
@@ -32,5 +34,7 @@ Mapa de escopo contendo:
 - Arquivos em escopo
 - Arquivos fora do escopo
 - Contratos sensíveis
+- Interfaces/contratos existentes na área afetada
+- Integrações sem interface (débito Princípio VIII) — para sinalizar ao refactor-engineer
 - Perguntas abertas (se o repositório não respondeu)
 - **Candidatos para `components-registry.md`**: componentes identificados durante o mapeamento com potencial de reuso ainda não registrados (não criar/editar o arquivo — entregar lista para o agente pai)

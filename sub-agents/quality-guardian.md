@@ -53,6 +53,8 @@ Bloquear quando:
 - Teste obrigatório ausente para mudança relevante
 - Componentização sem justificativa ou lógica não trivial na interface
 - Contrato alterado sem aprovação
+- Nova integração ou serviço criado sem interface correspondente (violação do Princípio VIII)
+- Consumidor acoplado à implementação concreta onde interface deveria ser usada
 
 Não aplique correções a menos que o usuário peça explicitamente.
 

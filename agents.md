@@ -31,7 +31,7 @@ Se houver conflito relevante entre documentação, código e requisitos, pare e 
 - Leia a [constituição](./constitution.md) antes de trabalho relevante — use a skill `read-project-context`
 - Identifique o domínio afetado e abra apenas os contextos necessários
 - Inspecione código, contratos e fluxos existentes antes de propor mudanças — use `inspect-files` e `search-codebase`
-- Para features grandes, APIs e integrações, siga o fluxo `constitution → specification → planning → tasks → implementation`
+- Para features grandes, APIs e integrações, siga o fluxo `constitution → specification → contracts → planning → tasks → implementation`
 - Não faça mudanças silenciosas de contrato, payload, validação, erro ou comportamento documentado
 - Se houver qualquer dúvida ou ambiguidade de regra, arquitetura, contrato ou dados, questione o usuário antes de implementar
 - Mantenha documentação e contexto alinhados com o que foi realmente entregue
@@ -49,6 +49,7 @@ Direção obrigatória para novas mudanças:
 - Componentes devem focar em renderização e orquestração simples
 - Use tipagem explícita. `any` e equivalentes só com justificativa documentada
 - Novas dependências só com justificativa técnica clara
+- **Toda integração, serviço, repositório ou abstração nova segue o padrão interface/adapter** — defina o contrato/interface antes da implementação concreta; consumidores referenciam a interface, não o adapter direto (ver Princípio VIII da `constitution.md`)
 
 ## Testes
 

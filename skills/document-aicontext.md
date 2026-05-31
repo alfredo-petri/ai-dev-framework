@@ -38,6 +38,8 @@ aicontext/
 | Situação | Ação |
 |----------|------|
 | Feature nova | Adicionar nova entrada em `## Features` |
+| Nova interface/contrato introduzida | Adicionar entrada em `## Interfaces / Contratos` com adapters conhecidos |
+| Adapter novo para interface existente | Atualizar entrada da interface com o novo adapter |
 | Fix que muda comportamento descrito | Atualizar descrição existente para refletir comportamento correto |
 | Fix interno sem mudança observável | **Não atualizar** — seria redundante |
 | Módulo sem arquivo ainda | Criar `aicontext/<modulo>.md` com a seção pertinente |
@@ -46,6 +48,11 @@ aicontext/
 
 ```markdown
 # <Nome do Módulo>
+
+## Interfaces / Contratos
+
+### `I<NomeDoContrato>`
+<Responsabilidade do contrato. Adapters existentes: `AdapterA` (tecnologia), `AdapterB` (tecnologia).>
 
 ## Features
 

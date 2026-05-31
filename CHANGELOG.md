@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.6.1
+
+### Constitution / Core
+
+- `constitution.md`: novo Princípio VIII — Interface/Adapter; fluxo de documentação atualizado para incluir `contracts` antes de `planning`; estrutura de pastas expandida com `adapters/`
+- `agents.md`: direção obrigatória atualizada com Princípio VIII; fluxo `constitution → specification → contracts → planning → tasks → implementation`
+
+### Sub-agents / Skills
+
+- `quality-guardian`: bloqueio agora inclui nova integração sem interface (violação Princípio VIII)
+- `scope-mapper`: mapeia interfaces existentes e sinaliza integrações sem interface como débito; saída expandida
+- `test-engineer`: nova seção "Padrão Interface/Adapter em testes" — injeção via interface, adapters in-memory preferíveis a mocks
+- `run-audit-checklist`: novo bloco "Padrão Interface/Adapter" no checklist bloqueante; critério de bloqueio expandido
+- `build-scope-map`: identifica interfaces existentes e integrações sem interface no mapeamento
+- `document-aicontext`: formato de módulo expandido com seção `## Interfaces / Contratos`; tabela de regras atualizada
+
 ## v1.6.0
 
 ### Agents / Sub-agents / Skills

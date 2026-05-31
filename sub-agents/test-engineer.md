@@ -27,6 +27,12 @@
 - Contexto de fluxos sensíveis
 - Saída do refactor-engineer, se existir
 
+## Padrão Interface/Adapter em testes
+
+- Testes injetam adapters de teste (mocks, fakes, in-memory) via interface — nunca instanciam implementação concreta diretamente quando interface existe
+- Se código não tem interface: sinalizar no handoff como débito do Princípio VIII; testar o que for possível sem criar acoplamento à implementação
+- Adapters in-memory são preferíveis a mocks de biblioteca quando a interface permite
+
 ## Perguntas a fazer se o repositório não responder
 
 - Qual comportamento é mais crítico preservar?

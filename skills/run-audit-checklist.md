@@ -38,6 +38,12 @@ Invocada pelo sub-agent `quality-guardian` após receber handoff do `test-engine
 - Cobertura é coerente com o risco da mudança?
 - Testes obrigatórios para mudanças relevantes foram criados?
 
+**Padrão Interface/Adapter (Princípio VIII)**
+- Toda nova integração, serviço ou repositório tem interface/contrato definido?
+- Implementações concretas são adapters que satisfazem o contrato?
+- Consumidores referenciam a interface, não a implementação direta?
+- Se não há interface: exceção documentada em `clarify.md`?
+
 **Aderência às regras**
 - Mudança adere ao `agents.md`?
 - Mudança adere à `constitution.md`?
@@ -55,6 +61,7 @@ Bloquear quando:
 - Teste obrigatório ausente para mudança relevante
 - Componentização sem justificativa ou lógica não trivial na interface
 - Contrato alterado sem aprovação
+- Nova integração sem interface (violação Princípio VIII) sem exceção documentada
 
 ## Regras
 

@@ -35,6 +35,18 @@ Siga os padrões de observabilidade já estabelecidos no projeto. Não introduza
 
 Contratos são a fonte da verdade. Alterações silenciosas de contrato, payload, validação ou comportamento documentado são proibidas. Ambiguidade de contrato bloqueia implementação — questione antes de assumir.
 
+## VIII. Padrão Interface/Adapter
+
+Toda integração, serviço, repositório ou abstração nova segue o padrão interface/adapter:
+
+1. **Contrato primeiro** — interface ou classe base abstrata define o comportamento antes de qualquer implementação concreta
+2. **Implementação como adapter** — toda classe concreta é um adapter que satisfaz o contrato
+3. **Consumo pelo contrato** — código consumidor referencia a interface, nunca a implementação direta
+
+Este princípio se aplica a: conexões com banco de dados, clientes HTTP, serviços externos, gateways de pagamento, repositórios de dados, componentes com variantes, qualquer ponto de extensão previsto.
+
+Exceção documentada: lógica trivial local sem integração ou extensão prevista — decisão deve ser registrada em `clarify.md` da spec correspondente.
+
 ---
 
 ## Padrões Técnicos
@@ -63,6 +75,8 @@ Não traga dependências novas sem justificativa técnica clara e comparação c
 - Componentes reutilizáveis entre features → `components/` na raiz
 - Lógica de negócio → hooks, services, utils, helper functions
 - Tipos e interfaces → `types/` ou arquivo dedicado por domínio
+- Interfaces/contratos → arquivo dedicado por domínio (ex: `IUserRepository.ts`)
+- Adapters/implementações concretas → `adapters/` dentro do módulo ou domínio
 
 ---
 
@@ -84,11 +98,12 @@ Toda regra de negócio relevante exige cobertura automatizada. Testes ausentes e
 Para features, APIs e integrações relevantes, siga na ordem:
 
 1. **Specification** — O que precisa ser feito, em linguagem de produto
-2. **Planning** — Como será feito, em linguagem técnica
-3. **Tasks** — Lista acionável derivada do plano aprovado
-4. **Implementation** — Execução alinhada à spec e ao plano
+2. **Contracts** — Interfaces, adapters e contratos que a feature define (obrigatório quando há integração ou extensão)
+3. **Planning** — Como será feito, em linguagem técnica
+4. **Tasks** — Lista acionável derivada do plano aprovado
+5. **Implementation** — Execução alinhada à spec, contratos e plano
 
-Nenhuma implementação começa sem spec e plano aprovados. Use os templates em `templates/`.
+Nenhuma implementação começa sem spec, contratos e plano aprovados. Use os templates em `templates/`.
 
 ---
 

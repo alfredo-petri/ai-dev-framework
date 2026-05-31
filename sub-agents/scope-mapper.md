@@ -55,6 +55,8 @@
 - Sem sugerir refatoração ampla sem necessidade concreta
 - Prefira fatos observáveis do repositório
 - Aponte e questione se documentação diverge do código em pontos críticos
+- Identificar interfaces/contratos existentes na área afetada — indicar ao próximo sub-agent quais contratos preservar
+- Sinalizar integrações concretas sem interface no escopo como débito do Princípio VIII
 
 ## Saída obrigatória
 
@@ -62,7 +64,7 @@
 **Objetivo**: ...
 **Contexto lido**: ...
 **Decisoes**: Escopo técnico sugerido, limites claros, contextos que o próximo sub-agent precisa abrir
-**Artefatos/Arquivos**: Arquivos em escopo | Arquivos fora do escopo | Contratos e fluxos sensíveis
-**Riscos/Bloqueios**: Ambiguidades que precisam de resposta humana | Divergências doc/código | Dependências a validar
+**Artefatos/Arquivos**: Arquivos em escopo | Arquivos fora do escopo | Contratos e fluxos sensíveis | Interfaces existentes no escopo | Integrações sem interface (débito de Princípio VIII)
+**Riscos/Bloqueios**: Ambiguidades que precisam de resposta humana | Divergências doc/código | Dependências a validar | Pontos de integração sem interface que podem exigir extração
 **Proximos passos**: ...
 ```
