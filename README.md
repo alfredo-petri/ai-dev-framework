@@ -665,7 +665,7 @@ git push
 ## Como usar em um projeto específico (sem instalação global)
 
 ```bash
-npm install github:alfredo-petri/ai-dev-framework
+npm install @alfredo-petri/ai-dev-framework
 ```
 
 Ou copie manualmente `agents/`, `sub-agents/`, `skills/`, `tools/`, `templates/`, `constitution.md` e `agents.md` para um diretório `context/` no projeto e adapte `agents.md` com a stack local.
