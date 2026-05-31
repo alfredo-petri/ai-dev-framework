@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.3.2
+
+### CLI
+
+- Corrigido `link codex`: agora injeta o AI Dev Framework em `~/.codex/AGENTS.md`, arquivo carregado pelo Codex CLI atual, em vez de `~/.codex/instructions.md`
+
 ## v1.3.1
 
 ### Docs

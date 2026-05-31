@@ -262,7 +262,7 @@ const AGENTS = {
     name: 'OpenAI Codex CLI',
     detect: () => commandExists('codex') || fs.existsSync(path.join(os.homedir(), '.codex')),
     link() {
-      const target = path.join(os.homedir(), '.codex', 'instructions.md');
+      const target = path.join(os.homedir(), '.codex', 'AGENTS.md');
       injectBlock(target, frameworkBlock());
       console.log(`  ✓ ${target}`);
     },
@@ -538,7 +538,7 @@ Commands:
 
 CLI Agents (link):
   claude           Claude Code  (~/.claude/CLAUDE.md)
-  codex            OpenAI Codex CLI  (~/.codex/instructions.md)
+  codex            OpenAI Codex CLI  (~/.codex/AGENTS.md)
   copilot          GitHub Copilot CLI  (~/.copilot/skills/)
   gemini           Gemini CLI  (~/.gemini/GEMINI.md)
   --all            All detected agents (default)

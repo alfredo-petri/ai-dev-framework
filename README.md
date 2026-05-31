@@ -17,7 +17,7 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 | Comando | Agent | Config injetada |
 |---------|-------|-----------------|
 | `link claude` | Claude Code | `~/.claude/CLAUDE.md` + 24 slash commands em `~/.claude/commands/` |
-| `link codex` | OpenAI Codex CLI | `~/.codex/instructions.md` |
+| `link codex` | OpenAI Codex CLI | `~/.codex/AGENTS.md` |
 | `link copilot` | GitHub Copilot CLI (`copilot` binary) | 24 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
 | `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
