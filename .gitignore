@@ -1,3 +1,14 @@
 node_modules/
 *.log
 .DS_Store
+
+# External tool artifacts
+.agents/
+.clinerules/
+.opencode/
+.windsurf/
+.cursor/rules/caveman.mdc
+skills/caveman*
+skills/cavecrew
+skills-lock.json
+last-session-codex.jsonl
