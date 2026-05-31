@@ -26,6 +26,7 @@ Invocada pelo sub-agent `style-reference-scout` após `read-project-context`. Us
 - Invocar `--domain color` e `--domain typography` se paleta/tipografia não estiver clara nos arquivos do projeto
 - Invocar `--design-system -p "<nome>"` para gerar sistema de design completo por domínio de produto
 - Não bloquear se a skill não estiver presente — continuar com referências locais
+- Se ui-ux-pro-max não estiver instalado: sugerir `for agent in claude codex copilot cursor windsurf gemini; do npx uipro-cli init --ai $agent; done`
 
 ## Regras
 

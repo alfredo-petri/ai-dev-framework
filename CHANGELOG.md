@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.5.3
+
+### Skills
+
+- `project-init` e `collect-visual-references`: instalação do `ui-ux-pro-max` agora mencionada com comando para todos os agents (`claude codex copilot cursor windsurf gemini`)
+
 ## v1.5.2
 
 ### Skills / Agents

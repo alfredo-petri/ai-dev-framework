@@ -573,7 +573,10 @@ Próximos passos:
   - Revisar constitution.md e completar seções [a definir]
   - Adicionar componentes existentes em components-registry.md
   - Alimentar aicontext/ após cada feature (skill document-aicontext)
-  - Design intelligence: `npx uipro-cli init --ai claude` (161 palettes, 67 estilos, guidelines por stack)
+  - Design intelligence (161 palettes, 67 estilos, guidelines por stack) — instalar para todos os agents detectados:
+    ```bash
+    for agent in claude codex copilot cursor windsurf gemini; do npx uipro-cli init --ai $agent; done
+    ```
 ```
 
 ---
