@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.3.4
+
+### CLI
+
+- `link codex` e `link gemini` agora embute o conteúdo de `constitution.md` e `agents.md` diretamente no arquivo de instruções global (`AGENTS.md` / `GEMINI.md`), garantindo que o agente tenha as regras em contexto sem depender de leituras adicionais de arquivo
+- `link codex` remove automaticamente `~/.codex/instructions.md` caso exista (arquivo obsoleto criado por versões < 1.3.2)
+- `uninstall` também remove `~/.codex/instructions.md` obsoleto se presente
+- `update` agora instala via npm registry (`@alfredo-petri/ai-dev-framework@latest`) em vez do GitHub diretamente, evitando divergência entre `npm install -g` e `update`
+- Skill wrappers nativos (Codex, Copilot) incluem instrução de fallback indicando `ai-dev-framework install && link` caso o arquivo referenciado não exista
+
 ## v1.3.3
 
 ### CLI

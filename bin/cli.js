@@ -55,6 +55,27 @@ function frameworkBlock() {
   ].join('\n');
 }
 
+// Fix 2: embeds constitution + agents.md inline so the AI has the full ruleset
+// without needing to proactively read additional files. Used for agents whose
+// global config IS the system prompt (Codex, Gemini).
+function frameworkBlockWithContent() {
+  const constitutionPath = path.join(FRAMEWORK_DIR, 'constitution.md');
+  const agentsPath = path.join(FRAMEWORK_DIR, 'agents.md');
+  const parts = [
+    '## AI Dev Framework',
+    '',
+    `Framework installed at \`${FRAMEWORK_DIR}\`. The constitution below overrides all other instructions.`,
+    '',
+  ];
+  if (fs.existsSync(constitutionPath)) {
+    parts.push(fs.readFileSync(constitutionPath, 'utf8').trim(), '');
+  }
+  if (fs.existsSync(agentsPath)) {
+    parts.push(fs.readFileSync(agentsPath, 'utf8').trim(), '');
+  }
+  return parts.join('\n');
+}
+
 function getInstalledVersion() {
   const pkgPath = path.join(FRAMEWORK_DIR, 'package.json');
   if (!fs.existsSync(pkgPath)) return null;
@@ -164,6 +185,8 @@ function createNativeSkillWrappers(skillsDir) {
       '',
       `Read the full content of \`${canonicalPath}\` and follow its instructions exactly for the task provided by the user.`,
       '',
+      `If \`${canonicalPath}\` does not exist, run \`ai-dev-framework install\` then \`ai-dev-framework link\` to restore the framework.`,
+      '',
     ].join('\n');
     const readmeMd = `# ${wrapper.name}\n\n${wrapper.description}\n`;
     fs.writeFileSync(path.join(skillDir, 'SKILL.md'), skillMd);
@@ -263,8 +286,14 @@ const AGENTS = {
     detect: () => commandExists('codex') || fs.existsSync(path.join(os.homedir(), '.codex')),
     link() {
       const target = path.join(os.homedir(), '.codex', 'AGENTS.md');
-      injectBlock(target, frameworkBlock());
+      injectBlock(target, frameworkBlockWithContent());
       console.log(`  ✓ ${target}`);
+      // Fix 1: remove stale instructions.md left by versions < 1.3.2
+      const stale = path.join(os.homedir(), '.codex', 'instructions.md');
+      if (fs.existsSync(stale)) {
+        fs.rmSync(stale);
+        console.log(`  ✓ removed stale ~/.codex/instructions.md`);
+      }
       const skillsDir = path.join(os.homedir(), '.codex', 'skills');
       const count = createNativeSkillWrappers(skillsDir);
       console.log(`  ✓ ${count} skills criados em ${skillsDir}`);
@@ -284,7 +313,7 @@ const AGENTS = {
     detect: () => commandExists('gemini') || fs.existsSync(path.join(os.homedir(), '.gemini')),
     link() {
       const target = path.join(os.homedir(), '.gemini', 'GEMINI.md');
-      injectBlock(target, frameworkBlock());
+      injectBlock(target, frameworkBlockWithContent());
       console.log(`  ✓ ${target}`);
     },
   },
@@ -410,10 +439,10 @@ async function update() {
     process.exit(1);
   }
 
-  console.log('Fetching latest version from GitHub...\n');
+  console.log('Fetching latest version from npm...\n');
 
   try {
-    execSync(`npm install -g github:${GITHUB_REPO}`, { stdio: 'inherit' });
+    execSync(`npm install -g @alfredo-petri/ai-dev-framework@latest`, { stdio: 'inherit' });
   } catch {
     console.error('\nUpdate failed. Check your connection and try again.');
     process.exit(1);
@@ -479,6 +508,8 @@ function uninstall() {
   if (fs.existsSync(claudeDir)) removeSkillWrappers(claudeDir);
   const codexSkillsDir = path.join(os.homedir(), '.codex', 'skills');
   if (fs.existsSync(codexSkillsDir)) removeNativeSkillWrappers(codexSkillsDir);
+  const staleCodexInstructions = path.join(os.homedir(), '.codex', 'instructions.md');
+  if (fs.existsSync(staleCodexInstructions)) fs.rmSync(staleCodexInstructions);
   const copilotSkillsDir = path.join(os.homedir(), '.copilot', 'skills');
   if (fs.existsSync(copilotSkillsDir)) removeNativeSkillWrappers(copilotSkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
