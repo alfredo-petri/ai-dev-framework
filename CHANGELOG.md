@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.3.3
+
+### CLI
+
+- `link codex` agora também cria 24 skills nativas em `~/.codex/skills/<name>/SKILL.md`, além de injetar `~/.codex/AGENTS.md`
+- `uninstall` remove os wrappers de skills criados para Codex e Copilot
+
 ## v1.3.2
 
 ### CLI

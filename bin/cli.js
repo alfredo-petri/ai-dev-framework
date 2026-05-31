@@ -148,7 +148,7 @@ function removeSkillWrappers(claudeDir) {
   }
 }
 
-function createCopilotSkillWrappers(skillsDir) {
+function createNativeSkillWrappers(skillsDir) {
   fs.mkdirSync(skillsDir, { recursive: true });
   let created = 0;
   for (const wrapper of SKILL_WRAPPERS) {
@@ -173,7 +173,7 @@ function createCopilotSkillWrappers(skillsDir) {
   return created;
 }
 
-function removeCopilotSkillWrappers(skillsDir) {
+function removeNativeSkillWrappers(skillsDir) {
   for (const wrapper of SKILL_WRAPPERS) {
     const skillDir = path.join(skillsDir, wrapper.name);
     if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
@@ -265,6 +265,9 @@ const AGENTS = {
       const target = path.join(os.homedir(), '.codex', 'AGENTS.md');
       injectBlock(target, frameworkBlock());
       console.log(`  ✓ ${target}`);
+      const skillsDir = path.join(os.homedir(), '.codex', 'skills');
+      const count = createNativeSkillWrappers(skillsDir);
+      console.log(`  ✓ ${count} skills criados em ${skillsDir}`);
     },
   },
   copilot: {
@@ -272,7 +275,7 @@ const AGENTS = {
     detect: () => commandExists('copilot') || fs.existsSync(path.join(os.homedir(), '.copilot')),
     link() {
       const skillsDir = path.join(os.homedir(), '.copilot', 'skills');
-      const count = createCopilotSkillWrappers(skillsDir);
+      const count = createNativeSkillWrappers(skillsDir);
       console.log(`  ✓ ${count} skills criados em ${skillsDir}`);
     },
   },
@@ -474,11 +477,14 @@ function uninstall() {
   if (!fs.existsSync(FRAMEWORK_DIR)) { console.log('Not installed.'); return; }
   const claudeDir = path.join(os.homedir(), '.claude');
   if (fs.existsSync(claudeDir)) removeSkillWrappers(claudeDir);
+  const codexSkillsDir = path.join(os.homedir(), '.codex', 'skills');
+  if (fs.existsSync(codexSkillsDir)) removeNativeSkillWrappers(codexSkillsDir);
   const copilotSkillsDir = path.join(os.homedir(), '.copilot', 'skills');
-  if (fs.existsSync(copilotSkillsDir)) removeCopilotSkillWrappers(copilotSkillsDir);
+  if (fs.existsSync(copilotSkillsDir)) removeNativeSkillWrappers(copilotSkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`✓ Removed ${FRAMEWORK_DIR}`);
   console.log(`✓ Slash commands removed from ${claudeDir}/commands`);
+  console.log(`✓ Skills removed from ${codexSkillsDir}`);
   console.log(`✓ Skills removed from ${copilotSkillsDir}`);
 }
 
@@ -538,7 +544,7 @@ Commands:
 
 CLI Agents (link):
   claude           Claude Code  (~/.claude/CLAUDE.md)
-  codex            OpenAI Codex CLI  (~/.codex/AGENTS.md)
+  codex            OpenAI Codex CLI  (~/.codex/AGENTS.md + ~/.codex/skills/)
   copilot          GitHub Copilot CLI  (~/.copilot/skills/)
   gemini           Gemini CLI  (~/.gemini/GEMINI.md)
   --all            All detected agents (default)
