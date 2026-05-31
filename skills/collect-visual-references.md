@@ -21,6 +21,12 @@ Invocada pelo sub-agent `style-reference-scout` após `read-project-context`. Us
 4. Identificar padrões de densidade e responsividade
 5. Resumir o que repetir e o que evitar
 
+**Etapa opcional — se `skills/ui-ux-pro-max/` existir no projeto:**
+- Invocar `python3 skills/ui-ux-pro-max/scripts/search.py "<domínio>" --domain style` para referências de estilo complementares ao padrão local
+- Invocar `--domain color` e `--domain typography` se paleta/tipografia não estiver clara nos arquivos do projeto
+- Invocar `--design-system -p "<nome>"` para gerar sistema de design completo por domínio de produto
+- Não bloquear se a skill não estiver presente — continuar com referências locais
+
 ## Regras
 
 - Sem implementação, sem alteração de arquivo

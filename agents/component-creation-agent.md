@@ -20,6 +20,7 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 
 1. `sub-agents/scope-mapper.md` — quando escopo cruza módulos/contratos/consumidores
 2. `sub-agents/style-reference-scout.md` — quando nova UI ou referências visuais citadas
+   *(Se `skills/ui-ux-pro-max/` estiver presente no projeto, invocar antes do style-reference-scout para gerar design system por domínio de produto: `python3 skills/ui-ux-pro-max/scripts/search.py "<produto>" --design-system`)*
 3. `sub-agents/refactor-engineer.md`
 4. `sub-agents/test-engineer.md`
 5. `sub-agents/quality-guardian.md`

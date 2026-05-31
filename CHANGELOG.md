@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.5.2
+
+### Skills / Agents
+
+- `collect-visual-references`: integração opt-in com `ui-ux-pro-max` — se `skills/ui-ux-pro-max/` estiver presente no projeto, skill invoca o motor de busca para referências de estilo, cor e tipografia complementares
+- `component-creation-agent`: menciona invocação opcional de `ui-ux-pro-max --design-system` antes do style-reference-scout
+- `project-init`: saída final sugere instalação independente de `ui-ux-pro-max` para design intelligence completo
+
 ## v1.5.1
 
 ### Skills

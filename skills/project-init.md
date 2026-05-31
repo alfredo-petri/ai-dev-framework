@@ -573,6 +573,7 @@ Próximos passos:
   - Revisar constitution.md e completar seções [a definir]
   - Adicionar componentes existentes em components-registry.md
   - Alimentar aicontext/ após cada feature (skill document-aicontext)
+  - Design intelligence: `npx uipro-cli init --ai claude` (161 palettes, 67 estilos, guidelines por stack)
 ```
 
 ---
