@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.6.2
+
+### Docs
+
+- `README.md`: nova seção "Princípio Interface/Adapter" explicando o padrão; pipeline anotado com responsabilidades de interface/adapter por etapa; descrições de agents, sub-agents e skills atualizadas; estrutura de arquivos expandida com `templates/` e `contracts-template.md`
+
 ## v1.6.1
 
 ### Constitution / Core

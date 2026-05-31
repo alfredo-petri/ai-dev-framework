@@ -76,6 +76,18 @@ Agent (orchestrator — goal de alto nível)
   └── usa Tools diretamente quando aplicável
 ```
 
+## Princípio Interface/Adapter
+
+Todo componente, serviço, repositório ou integração nova segue o padrão interface/adapter:
+
+1. **Contrato primeiro** — interface ou classe base abstrata define o comportamento antes de qualquer implementação
+2. **Implementação como adapter** — toda classe concreta é um adapter que satisfaz o contrato
+3. **Consumo pelo contrato** — código consumidor referencia a interface, nunca a implementação direta
+
+Features com integração ou extensão prevista exigem `contracts.md` na pasta `specs/` — aprovado junto com `plan.md` antes de qualquer código.
+
+---
+
 ## Pipeline padrão
 
 ```
@@ -83,11 +95,11 @@ read-project-context      (skill — obrigatória)
 classify-change           (skill — obrigatória)
 open-github-issue         (skill — obrigatória se GitHub disponível)
   ↓
-scope-mapper              (sub-agent — condicional)
+scope-mapper              (sub-agent — condicional: mapeia interfaces existentes e débitos)
 style-reference-scout     (sub-agent — condicional)
-refactor-engineer         (sub-agent — obrigatório em código)
-test-engineer             (sub-agent — obrigatório em código)
-quality-guardian          (sub-agent — gate final)
+refactor-engineer         (sub-agent — obrigatório em código: define interfaces antes de extrações)
+test-engineer             (sub-agent — obrigatório em código: testa via contrato/interface)
+quality-guardian          (sub-agent — gate final: bloqueia se interface/adapter ausente)
   ↓
 commit-changes            (skill)
 close-github-issue        (skill)
@@ -129,7 +141,7 @@ implementar o módulo de autenticação via OAuth 2.0 com suporte a Google e Git
 use o feature-module-agent para criar o módulo de notificações push
 ```
 
-Cria `specs/<slug>/` com clarify, spec, plan, tasks, implement e report. Aguarda aprovação explícita antes de escrever código.
+Cria `specs/<slug>/` com clarify, spec, **contracts**, plan, tasks, implement e report. `contracts.md` define interfaces e adapters da feature — aprovado junto com `plan.md` antes de qualquer código. Aguarda aprovação explícita antes de escrever código.
 
 ---
 
@@ -146,7 +158,7 @@ criar um componente DataTable reutilizável com suporte a ordenação, paginaç�
 use o component-creation-agent para criar um componente de upload de arquivos com drag-and-drop
 ```
 
-Invoca style-reference-scout antes de criar qualquer UI para garantir aderência ao padrão local.
+Define interface/contrato do componente antes de qualquer código. Cria implementação concreta como adapter satisfazendo o contrato. Invoca style-reference-scout antes de criar qualquer UI para garantir aderência ao padrão local.
 
 ---
 
@@ -163,7 +175,7 @@ refatorar src/components/UserDashboard.tsx — componente com 600 linhas mistura
 use o component-refactor-agent em src/features/checkout/CheckoutForm.tsx
 ```
 
-Mapeia escopo → extrai lógica → componentiza → testa → audita.
+Mapeia escopo → extrai interfaces/contratos → extrai lógica como adapters → componentiza → testa → audita.
 
 ---
 
@@ -201,7 +213,7 @@ mapear o escopo do módulo de autenticação — quais arquivos são afetados se
 use o scope-mapper para identificar tudo que depende de src/lib/api-client.ts antes de refatorar
 ```
 
-Saída: arquivos em escopo, fora do escopo, contratos críticos, ambiguidades.
+Saída: arquivos em escopo, fora do escopo, contratos críticos, interfaces existentes, integrações sem interface (débito de Princípio VIII), ambiguidades.
 
 ---
 
@@ -235,7 +247,7 @@ extrair a lógica de validação de src/components/LoginForm.tsx para um hook re
 use o refactor-engineer para separar a camada de acesso a dados do módulo de produtos
 ```
 
-Preserva comportamento, contratos e padrões locais. Não inventa requisitos.
+Define interface/contrato antes de qualquer extração. Implementações concretas são adapters. Preserva comportamento, contratos e padrões locais. Não inventa requisitos.
 
 ---
 
@@ -252,7 +264,7 @@ criar testes para o módulo de cálculo de frete recém implementado
 use o test-engineer para cobrir os edge cases de src/lib/discount-calculator.ts
 ```
 
-Detecta framework existente, segue padrão local. Cobre unit, component e integração conforme risco.
+Detecta framework existente, segue padrão local. Testa via interface/contrato — injeta adapters de teste (mocks, fakes, in-memory), nunca instancia implementação concreta diretamente. Cobre unit, component e integração conforme risco.
 
 ---
 
@@ -269,7 +281,7 @@ auditar as mudanças do PR de refatoração do módulo de auth antes do merge
 use o quality-guardian para revisar a implementação do módulo de pagamentos PIX
 ```
 
-Verifica regressão, edge cases, contratos, separação lógica-UI e conformidade com constitution. Bloqueia se não passar.
+Verifica regressão, edge cases, contratos, separação lógica-UI, conformidade com constitution e Princípio VIII (nova integração sem interface bloqueia). Bloqueia se qualquer item falhar.
 
 ---
 
@@ -337,7 +349,7 @@ Mapeia escopo, contratos e ambiguidades de uma área do código.
 mapear escopo de src/modules/payments/ antes de trocar o gateway
 ```
 
-Saída estruturada: arquivos em escopo, fora do escopo, contratos sensíveis, perguntas sem resposta no código.
+Saída estruturada: arquivos em escopo, fora do escopo, contratos sensíveis, interfaces existentes, integrações sem interface (débito), perguntas sem resposta no código.
 
 ---
 
@@ -389,7 +401,7 @@ Checklist bloqueante de auditoria final.
 auditar mudanças em src/auth/ — verificar regressão, contratos e edge cases
 ```
 
-Valida regressão funcional, edge cases, contratos públicos, separação lógica-UI e conformidade com constitution. Bloqueia se qualquer item falhar.
+Valida regressão funcional, edge cases, contratos públicos, separação lógica-UI, conformidade com constitution e Princípio VIII (nova integração sem interface). Bloqueia se qualquer item falhar.
 
 ---
 
@@ -402,7 +414,7 @@ Cria ou atualiza `aicontext/<modulo>.md` após implementação.
 documentar o módulo de pagamentos após implementação do PIX
 ```
 
-Infere módulo pelos arquivos modificados. Cria `aicontext/payments.md` com stack, decisões de arquitetura, integrações e convenções do módulo.
+Infere módulo pelos arquivos modificados. Cria ou atualiza `aicontext/<modulo>.md` com interfaces/contratos introduzidos, adapters existentes, features e convenções do módulo.
 
 ---
 
@@ -538,10 +550,10 @@ Formato padrão:
 ```
 ai-dev-framework/
 ├── agents.md                        # Guia operacional e regras
-├── constitution.md                  # Princípios de engenharia permanentes
+├── constitution.md                  # Princípios de engenharia permanentes (I–VIII)
 ├── components-registry.md           # Registro de componentes reutilizáveis
 ├── agents/                          # Orchestrators
-│   ├── agent-base.md
+│   ├── agent-base.md                # Base com Princípio Interface/Adapter obrigatório
 │   ├── bugfix-agent.md
 │   ├── component-creation-agent.md
 │   ├── component-refactor-agent.md
@@ -568,6 +580,14 @@ ai-dev-framework/
 │   ├── open-framework-issue.md
 │   ├── search-update.md
 │   └── update.md
+├── templates/                       # Templates para specs
+│   ├── spec-template.md
+│   ├── contracts-template.md        # Interfaces, adapters e componentes base
+│   ├── plan-template.md
+│   ├── clarify-template.md
+│   ├── implement-template.md
+│   ├── tasks-template.md
+│   └── report-template.md
 └── tools/                           # Operações atômicas
     ├── inspect-files.md
     ├── search-codebase.md
