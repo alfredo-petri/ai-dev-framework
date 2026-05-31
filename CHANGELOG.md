@@ -1,5 +1,31 @@
 # Changelog
 
+## v1.5.0
+
+### Skills
+
+- `project-init` — nova skill que inicializa infraestrutura de contexto AI em qualquer projeto: cria `AGENTS.md`, `constitution.md`, `components-registry.md` e pasta `aicontext/` via entrevista guiada em 5 grupos de perguntas (identidade, stack, domínio, qualidade, convenções); detecta stack automaticamente e cria bridges para cada AI tool presente (Claude Code, Codex, Copilot, Cursor, Windsurf)
+- Slash command registrado: `/ai-df-skill-project-init` (total: 25 slash commands)
+
+### Templates
+
+- `agents-template.md` — template base para `AGENTS.md` de projeto
+- `constitution-template.md` — template base para `constitution.md` com 9 seções cobrindo tipagem, arquitetura, stack, domínio, segurança, qualidade e governança
+- `components-registry-template.md` — template base para `components-registry.md` com tabela estruturada e tipos de componente
+- `aicontext-index-template.md` — template base para `aicontext/README.md` com índice e convenções de manutenção
+
+### Agents
+
+- `bugfix-agent`: invoca `document-aicontext` quando fix altera comportamento observável
+- `improvement-agent`: invoca `document-aicontext` quando melhoria altera comportamento público
+- `component-creation-agent`: invoca `document-aicontext` após registro em `components-registry.md`
+- `component-refactor-agent`: invoca `document-aicontext` quando mudança altera interface pública do módulo
+
+### Skills (updates)
+
+- `build-scope-map`: handoff agora inclui lista de candidatos para `components-registry.md` identificados durante mapeamento
+- `run-audit-checklist`: checklist agora verifica se novo componente reutilizável foi registrado em `components-registry.md`
+
 ## v1.4.0
 
 ### CLI

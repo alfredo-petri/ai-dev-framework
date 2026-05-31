@@ -29,6 +29,7 @@ Não use `style-reference-scout` por padrão.
 
 - `skills/read-project-context.md` — contexto inicial obrigatório
 - `skills/classify-change.md` — classificar como fix antes de iniciar
+- `skills/document-aicontext.md` — **se o fix altera comportamento observável ou documentado**: registrar correção em `aicontext/<modulo>.md`
 
 ## Tools usados
 

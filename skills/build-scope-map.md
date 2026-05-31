@@ -33,3 +33,4 @@ Mapa de escopo contendo:
 - Arquivos fora do escopo
 - Contratos sensíveis
 - Perguntas abertas (se o repositório não respondeu)
+- **Candidatos para `components-registry.md`**: componentes identificados durante o mapeamento com potencial de reuso ainda não registrados (não criar/editar o arquivo — entregar lista para o agente pai)

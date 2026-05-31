@@ -27,6 +27,7 @@ Pule `scope-mapper` se escopo claro e localizado.
 ## Skills usadas
 
 - `skills/read-project-context.md` — contexto inicial obrigatório
+- `skills/document-aicontext.md` — registrar componentes novos/refatorados em `aicontext/<modulo>.md` quando houver mudança de interface pública
 
 ## Tools usados
 
@@ -55,10 +56,11 @@ Se o repositório responde, não pergunte.
 5. Invocar `refactor-engineer` — refatorar
 6. Identificar componentes/hooks/services criados/movidos/extraídos
 7. Atualizar `components-registry.md` para novos/refatorados com potencial de reuso
-8. Invocar `test-engineer` — criar testes
-9. Invocar `run-command` — executar validações relevantes
-10. Invocar `quality-guardian` — auditar
-11. Invocar `emit-structured-output` — entregar resultado final
+8. Invocar `document-aicontext` — registrar se mudança altera interface pública do módulo
+9. Invocar `test-engineer` — criar testes
+10. Invocar `run-command` — executar validações relevantes
+11. Invocar `quality-guardian` — auditar
+12. Invocar `emit-structured-output` — entregar resultado final
 
 ## Regras de refatoração
 

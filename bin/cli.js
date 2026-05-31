@@ -164,6 +164,7 @@ const SKILL_WRAPPERS = [
   { name: 'ai-df-skill-open-framework-issue',        file: 'skills/open-framework-issue.md',        description: 'Open framework issue skill — guides user through structured questions and opens an issue in the ai-dev-framework repository.' },
   { name: 'ai-df-skill-search-update',              file: 'skills/search-update.md',              description: 'Search update skill — checks for available framework updates once per session.' },
   { name: 'ai-df-skill-update',                     file: 'skills/update.md',                     description: 'Update skill — updates the ai-dev-framework to the latest version after user approval.' },
+  { name: 'ai-df-skill-project-init',               file: 'skills/project-init.md',               description: 'Project init skill — bootstraps AI context infrastructure (AGENTS.md, constitution.md, components-registry.md, aicontext/) by interviewing the user about the project.' },
 ];
 
 function createSkillWrappers(claudeDir) {

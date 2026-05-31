@@ -29,6 +29,7 @@ Não use `style-reference-scout` por padrão.
 
 - `skills/read-project-context.md` — contexto inicial obrigatório
 - `skills/classify-change.md` — classificar natureza da melhoria antes de iniciar
+- `skills/document-aicontext.md` — **se a melhoria altera comportamento público ou contratos do módulo**: registrar em `aicontext/<modulo>.md`
 
 ## Tools usados
 

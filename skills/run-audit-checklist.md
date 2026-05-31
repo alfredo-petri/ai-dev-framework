@@ -30,8 +30,9 @@ Invocada pelo sub-agent `quality-guardian` após receber handoff do `test-engine
 - Lógica não trivial ficou fora dos componentes de UI?
 - Componentes focam em renderização e orquestração simples?
 
-**Sistema de design**
+**Sistema de design e registro de componentes**
 - Novos componentes/refatorações usam o sistema de design do projeto?
+- Se novo componente reutilizável foi criado: está registrado em `components-registry.md`?
 
 **Cobertura de testes**
 - Cobertura é coerente com o risco da mudança?

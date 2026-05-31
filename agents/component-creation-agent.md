@@ -31,6 +31,7 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 
 - `skills/read-project-context.md` — contexto inicial obrigatório
 - `skills/classify-change.md` — classificar como feature antes de iniciar
+- `skills/document-aicontext.md` — registrar novo componente em `aicontext/ui.md` ou módulo correspondente
 
 ## Tools usados
 
@@ -56,8 +57,9 @@ Criar novo componente sem regressão, edge case ou side effect, preservando padr
 5. Criar hooks/services/types/helpers apenas quando necessidade real
 6. Atualizar consumidores e contratos afetados
 7. Atualizar `components-registry.md`
-8. Criar testes (invocar `test-engineer`)
-9. Auditar mudança (invocar `quality-guardian`)
+8. Documentar componente em `aicontext/` (invocar `document-aicontext`)
+9. Criar testes (invocar `test-engineer`)
+10. Auditar mudança (invocar `quality-guardian`)
 
 ## Perguntar ao usuário apenas quando
 
