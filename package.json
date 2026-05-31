@@ -1,6 +1,6 @@
 {
   "name": "@alfredo-petri/ai-dev-framework",
-  "version": "1.3.4",
+  "version": "1.4.0",
   "description": "Portable AI development framework — agents, sub-agents, skills and tools for AI-assisted development",
   "bin": {
     "ai-dev-framework": "bin/cli.js"
@@ -12,9 +12,11 @@
     "skills/",
     "tools/",
     "templates/",
+    ".claude-plugin/",
     "constitution.md",
     "agents.md",
     "components-registry.md",
+    "skill.json",
     "CHANGELOG.md",
     "README.md"
   ],

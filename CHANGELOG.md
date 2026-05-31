@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.4.0
+
+### CLI
+
+- Novo canal de distribuição: `.claude-plugin/` manifest adicionado — framework agora installável via `claude plugin marketplace add alfredo-petri/ai-dev-framework && claude plugin install ai-dev-framework@ai-dev-framework` sem precisar de `npm install -g` + `link`
+- `.claude-plugin/skills/` com 24 wrappers usando `${CLAUDE_PLUGIN_ROOT}` — slash commands disponíveis automaticamente após instalação como plugin
+- `skill.json` adicionado na raiz — compatibilidade com ferramentas que usam formato universal de skill (uipro-cli, skills.sh, etc.)
+- `update --offline` e `check-update --offline` — re-aplica arquivos locais e re-linka agentes sem acesso à rede
+- Output colorido via ANSI codes (zero dependências adicionais): ✓ verde, ✗ vermelho, avisos amarelos, itens não detectados em dim
+- Spinner animado durante `update` (npm install)
+- CI `npm-publish.yml`: cria e faz push de tag `vX.Y.Z` no GitHub após publicação no npm
+
 ## v1.3.4
 
 ### CLI

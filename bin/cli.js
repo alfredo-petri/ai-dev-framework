@@ -14,6 +14,25 @@ const GITHUB_REPO = 'alfredo-petri/ai-dev-framework';
 const FRAMEWORK_DIRS = ['agents', 'sub-agents', 'skills', 'tools', 'templates'];
 const FRAMEWORK_FILES = ['constitution.md', 'agents.md', 'components-registry.md', 'package.json'];
 
+// ─── Terminal helpers ────────────────────────────────────────────────────────
+
+const c = {
+  green:  s => `\x1b[32m${s}\x1b[0m`,
+  red:    s => `\x1b[31m${s}\x1b[0m`,
+  yellow: s => `\x1b[33m${s}\x1b[0m`,
+  dim:    s => `\x1b[2m${s}\x1b[0m`,
+  bold:   s => `\x1b[1m${s}\x1b[0m`,
+};
+
+function spinner(text) {
+  const frames = ['⠋','⠙','⠹','⠸','⠼','⠴','⠦','⠧','⠇','⠏'];
+  let i = 0;
+  const t = setInterval(() => {
+    process.stdout.write(`\r${frames[i++ % frames.length]} ${text}`);
+  }, 80);
+  return { stop: (msg) => { clearInterval(t); process.stdout.write(`\r${msg}\n`); } };
+}
+
 // ─── Helpers ────────────────────────────────────────────────────────────────
 
 function copyDir(src, dest) {
@@ -256,12 +275,12 @@ const IDES = {
     linkGlobal() {
       const target = path.join(os.homedir(), '.codeium', 'windsurf', 'memories', 'global_rules.md');
       injectBlock(target, frameworkBlock());
-      console.log(`  ✓ ${target}`);
+      console.log(`  ${c.green('✓')} ${target}`);
     },
     linkProject(projectDir) {
       const target = path.join(projectDir, '.windsurfrules');
       injectBlock(target, frameworkBlock());
-      console.log(`  ✓ ${target}`);
+      console.log(`  ${c.green('✓')} ${target}`);
     },
   },
 };
@@ -276,9 +295,9 @@ const AGENTS = {
       const claudeDir = path.join(os.homedir(), '.claude');
       const target = path.join(claudeDir, 'CLAUDE.md');
       injectBlock(target, frameworkBlock());
-      console.log(`  ✓ ${target}`);
+      console.log(`  ${c.green('✓')} ${target}`);
       const count = createSkillWrappers(claudeDir);
-      console.log(`  ✓ ${count} slash commands criados em ${path.join(claudeDir, 'commands')}`);
+      console.log(`  ${c.green('✓')} ${count} slash commands criados em ${path.join(claudeDir, 'commands')}`);
     },
   },
   codex: {
@@ -287,16 +306,15 @@ const AGENTS = {
     link() {
       const target = path.join(os.homedir(), '.codex', 'AGENTS.md');
       injectBlock(target, frameworkBlockWithContent());
-      console.log(`  ✓ ${target}`);
-      // Fix 1: remove stale instructions.md left by versions < 1.3.2
+      console.log(`  ${c.green('✓')} ${target}`);
       const stale = path.join(os.homedir(), '.codex', 'instructions.md');
       if (fs.existsSync(stale)) {
         fs.rmSync(stale);
-        console.log(`  ✓ removed stale ~/.codex/instructions.md`);
+        console.log(`  ${c.green('✓')} removed stale ~/.codex/instructions.md`);
       }
       const skillsDir = path.join(os.homedir(), '.codex', 'skills');
       const count = createNativeSkillWrappers(skillsDir);
-      console.log(`  ✓ ${count} skills criados em ${skillsDir}`);
+      console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
     },
   },
   copilot: {
@@ -305,7 +323,7 @@ const AGENTS = {
     link() {
       const skillsDir = path.join(os.homedir(), '.copilot', 'skills');
       const count = createNativeSkillWrappers(skillsDir);
-      console.log(`  ✓ ${count} skills criados em ${skillsDir}`);
+      console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
     },
   },
   gemini: {
@@ -314,7 +332,7 @@ const AGENTS = {
     link() {
       const target = path.join(os.homedir(), '.gemini', 'GEMINI.md');
       injectBlock(target, frameworkBlockWithContent());
-      console.log(`  ✓ ${target}`);
+      console.log(`  ${c.green('✓')} ${target}`);
     },
   },
 };
@@ -329,19 +347,19 @@ function install(silent = false) {
     const src = path.join(PACKAGE_ROOT, dir);
     if (fs.existsSync(src)) {
       copyDir(src, path.join(FRAMEWORK_DIR, dir));
-      if (!silent) console.log(`  ✓ ${dir}/`);
+      if (!silent) console.log(`  ${c.green('✓')} ${dir}/`);
     }
   }
   for (const file of FRAMEWORK_FILES) {
     const src = path.join(PACKAGE_ROOT, file);
     if (fs.existsSync(src)) {
       fs.copyFileSync(src, path.join(FRAMEWORK_DIR, file));
-      if (!silent) console.log(`  ✓ ${file}`);
+      if (!silent) console.log(`  ${c.green('✓')} ${file}`);
     }
   }
 
   if (!silent) {
-    console.log(`\n✓ Installed to ${FRAMEWORK_DIR}`);
+    console.log(`\n${c.green('✓')} Installed to ${FRAMEWORK_DIR}`);
     console.log('\nNext steps:');
     console.log('  ai-dev-framework link --all     link to all detected agents');
     console.log('  ai-dev-framework link claude    link to Claude Code only');
@@ -362,7 +380,7 @@ function link(agent) {
         cfg.link();
         linked++;
       } else {
-        console.log(`  - ${key} (${cfg.name}): not detected`);
+        console.log(`  ${c.dim('-')} ${key} (${cfg.name}): not detected`);
       }
     }
     console.log('');
@@ -371,7 +389,7 @@ function link(agent) {
         console.log(`Linking ${ide.name} (global)...`);
         ide.linkGlobal();
       } else if (ide.supportsGlobal) {
-        console.log(`  - ${key} (${ide.name}): not detected`);
+        console.log(`  ${c.dim('-')} ${key} (${ide.name}): not detected`);
       }
     }
     if (linked === 0) console.log('No agents detected.');
@@ -380,7 +398,7 @@ function link(agent) {
 
   const cfg = AGENTS[agent];
   if (!cfg) {
-    console.error(`Unknown agent: ${agent}`);
+    console.error(c.red(`Unknown agent: ${agent}`));
     console.error(`Available: ${Object.keys(AGENTS).join(', ')}, --all`);
     process.exit(1);
   }
@@ -390,9 +408,9 @@ function link(agent) {
   console.log('Done.');
 }
 
-async function checkUpdate() {
+async function checkUpdate(offline = false) {
   if (!fs.existsSync(FRAMEWORK_DIR)) {
-    console.error('Framework not installed. Run "ai-dev-framework install" first.');
+    console.error(c.red('Framework not installed. Run "ai-dev-framework install" first.'));
     process.exit(1);
   }
 
@@ -402,26 +420,31 @@ async function checkUpdate() {
     return { upToDate: false };
   }
 
+  if (offline) {
+    console.log(`${c.green('✓')} Offline mode. Installed: v${installed}`);
+    return { upToDate: true, installed };
+  }
+
   process.stdout.write(`Checking for updates (installed: v${installed})... `);
 
   const release = await fetchJSON(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`);
   recordCheck();
 
   if (!release || !release.tag_name) {
-    console.log('could not reach GitHub. Skipping.');
+    console.log(c.yellow('could not reach GitHub. Skipping.'));
     return { upToDate: true };
   }
 
   const latest = release.tag_name.replace(/^v/, '');
 
   if (compareVersions(latest, installed) <= 0) {
-    console.log(`up to date ✓`);
+    console.log(c.green('up to date ✓'));
     return { upToDate: true, installed, latest };
   }
 
-  console.log(`update available!\n`);
+  console.log(c.yellow('update available!\n'));
   console.log(`  Installed : v${installed}`);
-  console.log(`  Latest    : v${latest}`);
+  console.log(`  Latest    : ${c.yellow(`v${latest}`)}`);
 
   if (release.body) {
     console.log('\n── What\'s new ──────────────────────────────────────');
@@ -429,22 +452,38 @@ async function checkUpdate() {
     console.log('────────────────────────────────────────────────────');
   }
 
-  console.log('\nRun "ai-dev-framework update" to install the latest version.');
+  console.log(`\nRun ${c.bold('"ai-dev-framework update"')} to install the latest version.`);
   return { upToDate: false, installed, latest };
 }
 
-async function update() {
+async function update(offline = false) {
   if (!fs.existsSync(FRAMEWORK_DIR)) {
-    console.error('Framework not installed. Run "ai-dev-framework install" first.');
+    console.error(c.red('Framework not installed. Run "ai-dev-framework install" first.'));
     process.exit(1);
   }
 
-  console.log('Fetching latest version from npm...\n');
+  if (offline) {
+    console.log('Offline mode — applying local package files...\n');
+    install(true);
+    console.log('\nRe-linking agents...');
+    for (const [, cfg] of Object.entries(AGENTS)) {
+      if (cfg.detect()) cfg.link();
+    }
+    for (const [, ide] of Object.entries(IDES)) {
+      if (ide.supportsGlobal && ide.detectGlobal()) ide.linkGlobal();
+    }
+    recordCheck();
+    console.log(`\n${c.green('✓')} Update complete (offline).`);
+    return;
+  }
+
+  const spin = spinner('Fetching latest version from npm...');
 
   try {
-    execSync(`npm install -g @alfredo-petri/ai-dev-framework@latest`, { stdio: 'inherit' });
+    execSync(`npm install -g @alfredo-petri/ai-dev-framework@latest`, { stdio: 'pipe' });
+    spin.stop(`${c.green('✓')} Fetched latest version from npm`);
   } catch {
-    console.error('\nUpdate failed. Check your connection and try again.');
+    spin.stop(c.red('✗ Update failed. Check your connection and try again.'));
     process.exit(1);
   }
 
@@ -460,7 +499,7 @@ async function update() {
   }
 
   recordCheck();
-  console.log('\n✓ Update complete.');
+  console.log(`\n${c.green('✓')} Update complete.`);
 }
 
 async function checkUpdateIfNeeded() {
@@ -476,28 +515,28 @@ function status() {
     : 'never';
 
   console.log(`\nInstall path : ${FRAMEWORK_DIR}`);
-  console.log(`Status       : ${installed ? '✓ installed' : '✗ not installed'}${version ? ` (v${version})` : ''}`);
+  console.log(`Status       : ${installed ? c.green('✓ installed') : c.red('✗ not installed')}${version ? ` (v${version})` : ''}`);
   console.log(`Last check   : ${lastCheck}`);
 
   if (installed) {
     console.log('\nDirectories:');
     for (const dir of FRAMEWORK_DIRS) {
       const ok = fs.existsSync(path.join(FRAMEWORK_DIR, dir));
-      console.log(`  ${ok ? '✓' : '✗'} ${dir}/`);
+      console.log(`  ${ok ? c.green('✓') : c.red('✗')} ${dir}/`);
     }
   }
 
   console.log('\nCLI Agents:');
   for (const [key, cfg] of Object.entries(AGENTS)) {
     const detected = cfg.detect();
-    console.log(`  ${detected ? '✓' : '-'} ${key.padEnd(10)} ${cfg.name}`);
+    console.log(`  ${detected ? c.green('✓') : c.dim('-')} ${key.padEnd(10)} ${cfg.name}`);
   }
 
   console.log('\nIDEs (global):');
   for (const [key, ide] of Object.entries(IDES)) {
     const detected = ide.supportsGlobal ? ide.detectGlobal() : false;
-    const note = ide.supportsGlobal ? '' : ' (project-only)';
-    console.log(`  ${detected ? '✓' : '-'} ${key.padEnd(10)} ${ide.name}${note}`);
+    const note = ide.supportsGlobal ? '' : c.dim(' (project-only)');
+    console.log(`  ${detected ? c.green('✓') : c.dim('-')} ${key.padEnd(10)} ${ide.name}${note}`);
   }
   console.log('');
 }
@@ -513,10 +552,10 @@ function uninstall() {
   const copilotSkillsDir = path.join(os.homedir(), '.copilot', 'skills');
   if (fs.existsSync(copilotSkillsDir)) removeNativeSkillWrappers(copilotSkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
-  console.log(`✓ Removed ${FRAMEWORK_DIR}`);
-  console.log(`✓ Slash commands removed from ${claudeDir}/commands`);
-  console.log(`✓ Skills removed from ${codexSkillsDir}`);
-  console.log(`✓ Skills removed from ${copilotSkillsDir}`);
+  console.log(`${c.green('✓')} Removed ${FRAMEWORK_DIR}`);
+  console.log(`${c.green('✓')} Slash commands removed from ${claudeDir}/commands`);
+  console.log(`${c.green('✓')} Skills removed from ${codexSkillsDir}`);
+  console.log(`${c.green('✓')} Skills removed from ${copilotSkillsDir}`);
 }
 
 function inject(args) {
@@ -593,7 +632,9 @@ Examples:
   ai-dev-framework inject --global           # all IDEs, global config
   ai-dev-framework inject --global windsurf  # windsurf global only
   ai-dev-framework check-update
+  ai-dev-framework check-update --offline    # show installed version, skip network
   ai-dev-framework update
+  ai-dev-framework update --offline          # re-apply local files + re-link, skip npm
   ai-dev-framework status
 `);
 }
@@ -601,14 +642,15 @@ Examples:
 // ─── Main ────────────────────────────────────────────────────────────────────
 
 const [,, command, ...args] = process.argv;
+const offline = args.includes('--offline');
 
 (async () => {
   switch (command) {
     case 'install':        install(); break;
     case 'link':           link(args[0]); break;
-    case 'check-update':   await checkUpdate(); break;
+    case 'check-update':   await checkUpdate(offline); break;
     case 'check-update-if-needed': await checkUpdateIfNeeded(); break;
-    case 'update':         await update(); break;
+    case 'update':         await update(offline); break;
     case 'status':         status(); break;
     case 'inject':         inject(args); break;
     case 'uninstall':      uninstall(); break;

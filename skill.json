@@ -1,0 +1,12 @@
+{
+  "name": "ai-dev-framework",
+  "displayName": "AI Dev Framework",
+  "description": "Portable AI development framework with constitution, agents, sub-agents, skills and tools. Covers spec→plan→tasks→implementation workflow for AI-assisted engineering.",
+  "version": "1.4.0",
+  "author": "alfredo-petri",
+  "license": "MIT",
+  "repository": "https://github.com/alfredo-petri/ai-dev-framework",
+  "keywords": ["ai", "agents", "framework", "engineering", "claude", "codex", "copilot", "gemini"],
+  "platforms": ["claude", "codex", "copilot", "gemini", "cursor", "windsurf"],
+  "install": "npm install -g @alfredo-petri/ai-dev-framework && ai-dev-framework install && ai-dev-framework link --all"
+}

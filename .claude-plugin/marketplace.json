@@ -1,0 +1,16 @@
+{
+  "name": "ai-dev-framework",
+  "description": "Portable AI development framework with agents, sub-agents, skills and tools.",
+  "owner": {
+    "name": "alfredo-petri",
+    "url": "https://github.com/alfredo-petri"
+  },
+  "plugins": [
+    {
+      "name": "ai-dev-framework",
+      "description": "Engineering-grade AI framework. Constitution + agents + sub-agents + skills + tools across Claude, Codex, Copilot, Gemini.",
+      "source": "./",
+      "category": "development"
+    }
+  ]
+}
