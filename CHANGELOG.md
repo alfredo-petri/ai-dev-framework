@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.6.3
+
+### CLI
+
+- Novo agente `opencode` — `link opencode` instala 24 skills em `~/.agents/skills/`, diretório carregado automaticamente pelo opencode como external skills
+- `link --all` agora detecta e linka o opencode quando `~/.config/opencode/` existe ou `opencode` está no PATH
+- `uninstall` agora remove as skills instaladas em `~/.agents/skills/`
+- `help` atualizado com `opencode` na lista de CLI agents
+
+### Docs
+
+- README: opencode adicionado na tabela de CLI agents suportados
+- README: nova seção "Skills no opencode" com lista completa das 24 skills instaladas
+
 ## v1.6.2
 
 ### Docs

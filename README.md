@@ -20,6 +20,7 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 | `link codex` | OpenAI Codex CLI | `~/.codex/AGENTS.md` + 24 skills em `~/.codex/skills/` |
 | `link copilot` | GitHub Copilot CLI (`copilot` binary) | 24 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
+| `link opencode` | opencode | 24 skills em `~/.agents/skills/` |
 | `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
 
 `link --all` também injeta automaticamente a config global nas IDEs detectadas (Cursor e Windsurf), sem necessidade de rodar `inject --global` separado.
@@ -594,6 +595,41 @@ ai-dev-framework/
     ├── run-command.md
     └── emit-structured-output.md
 ```
+
+## Skills no opencode
+
+Após `ai-dev-framework link opencode`, 24 skills ficam disponíveis em `~/.agents/skills/`:
+
+```
+ai-df-agent-bugfix
+ai-df-agent-feature-module
+ai-df-agent-component-creation
+ai-df-agent-component-refactor
+ai-df-agent-improvement
+
+ai-df-subagent-scope-mapper
+ai-df-subagent-style-reference-scout
+ai-df-subagent-refactor-engineer
+ai-df-subagent-test-engineer
+ai-df-subagent-quality-guardian
+
+ai-df-skill-read-project-context
+ai-df-skill-classify-change
+ai-df-skill-build-scope-map
+ai-df-skill-collect-visual-references
+ai-df-skill-build-risk-matrix
+ai-df-skill-write-tests
+ai-df-skill-run-audit-checklist
+ai-df-skill-document-aicontext
+ai-df-skill-commit-changes
+ai-df-skill-open-github-issue
+ai-df-skill-close-github-issue
+ai-df-skill-open-framework-issue
+ai-df-skill-search-update
+ai-df-skill-update
+```
+
+O opencode carrega automaticamente skills de `~/.agents/skills/` — nenhuma configuração adicional é necessária.
 
 ## Slash commands no Claude Code
 

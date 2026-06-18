@@ -336,6 +336,15 @@ const AGENTS = {
       console.log(`  ${c.green('✓')} ${target}`);
     },
   },
+  opencode: {
+    name: 'opencode',
+    detect: () => commandExists('opencode') || fs.existsSync(path.join(os.homedir(), '.config', 'opencode')),
+    link() {
+      const skillsDir = path.join(os.homedir(), '.agents', 'skills');
+      const count = createNativeSkillWrappers(skillsDir);
+      console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
+    },
+  },
 };
 
 // ─── Commands ────────────────────────────────────────────────────────────────
@@ -552,11 +561,14 @@ function uninstall() {
   if (fs.existsSync(staleCodexInstructions)) fs.rmSync(staleCodexInstructions);
   const copilotSkillsDir = path.join(os.homedir(), '.copilot', 'skills');
   if (fs.existsSync(copilotSkillsDir)) removeNativeSkillWrappers(copilotSkillsDir);
+  const opencodeSkillsDir = path.join(os.homedir(), '.agents', 'skills');
+  if (fs.existsSync(opencodeSkillsDir)) removeNativeSkillWrappers(opencodeSkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`${c.green('✓')} Removed ${FRAMEWORK_DIR}`);
   console.log(`${c.green('✓')} Slash commands removed from ${claudeDir}/commands`);
   console.log(`${c.green('✓')} Skills removed from ${codexSkillsDir}`);
   console.log(`${c.green('✓')} Skills removed from ${copilotSkillsDir}`);
+  console.log(`${c.green('✓')} Skills removed from ${opencodeSkillsDir}`);
 }
 
 function inject(args) {
@@ -618,6 +630,7 @@ CLI Agents (link):
   codex            OpenAI Codex CLI  (~/.codex/AGENTS.md + ~/.codex/skills/)
   copilot          GitHub Copilot CLI  (~/.copilot/skills/)
   gemini           Gemini CLI  (~/.gemini/GEMINI.md)
+  opencode         opencode  (~/.agents/skills/)
   --all            All detected agents (default)
 
 IDEs (inject):
