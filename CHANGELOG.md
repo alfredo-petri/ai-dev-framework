@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.6.5
+
+### CLI
+
+- `~/.agents/skills/` é agora a fonte de verdade para todas as skills; outros destinos (`~/.config/opencode/skills/`, `~/.codex/skills/`, `~/.copilot/skills/`) recebem symlinks apontando para este diretório em vez de cópias independentes
+- Nova função `symlinkNativeSkillWrappers` que cria/recria symlinks atomicamente (remove stale antes de criar)
+- `removeNativeSkillWrappers` atualizado para remover symlinks corretamente via `lstatSync`
+
 ## v1.6.4
 
 ### CLI

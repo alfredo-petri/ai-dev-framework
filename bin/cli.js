@@ -219,8 +219,27 @@ function createNativeSkillWrappers(skillsDir) {
 function removeNativeSkillWrappers(skillsDir) {
   for (const wrapper of SKILL_WRAPPERS) {
     const skillDir = path.join(skillsDir, wrapper.name);
-    if (fs.existsSync(skillDir)) fs.rmSync(skillDir, { recursive: true, force: true });
+    if (fs.existsSync(skillDir) || fs.lstatSync(skillDir, { throwIfNoEntry: false })) {
+      fs.rmSync(skillDir, { recursive: true, force: true });
+    }
   }
+}
+
+function symlinkNativeSkillWrappers(targetDir) {
+  const sourceDir = path.join(os.homedir(), '.agents', 'skills');
+  fs.mkdirSync(targetDir, { recursive: true });
+  let created = 0;
+  for (const wrapper of SKILL_WRAPPERS) {
+    const target = path.join(targetDir, wrapper.name);
+    const source = path.join(sourceDir, wrapper.name);
+    // Remove existing (file, dir or stale symlink) before creating symlink
+    if (fs.existsSync(target) || fs.lstatSync(target, { throwIfNoEntry: false })) {
+      fs.rmSync(target, { recursive: true, force: true });
+    }
+    fs.symlinkSync(source, target);
+    created++;
+  }
+  return created;
 }
 
 function writeCursorRule(filePath, content) {
@@ -314,8 +333,8 @@ const AGENTS = {
         console.log(`  ${c.green('✓')} removed stale ~/.codex/instructions.md`);
       }
       const skillsDir = path.join(os.homedir(), '.codex', 'skills');
-      const count = createNativeSkillWrappers(skillsDir);
-      console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
+      const count = symlinkNativeSkillWrappers(skillsDir);
+      console.log(`  ${c.green('✓')} ${count} skill symlinks criados em ${skillsDir}`);
     },
   },
   copilot: {
@@ -323,8 +342,8 @@ const AGENTS = {
     detect: () => commandExists('copilot') || fs.existsSync(path.join(os.homedir(), '.copilot')),
     link() {
       const skillsDir = path.join(os.homedir(), '.copilot', 'skills');
-      const count = createNativeSkillWrappers(skillsDir);
-      console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
+      const count = symlinkNativeSkillWrappers(skillsDir);
+      console.log(`  ${c.green('✓')} ${count} skill symlinks criados em ${skillsDir}`);
     },
   },
   gemini: {
@@ -344,8 +363,8 @@ const AGENTS = {
       const count = createNativeSkillWrappers(skillsDir);
       console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
       const opencodeSkillsDir = path.join(os.homedir(), '.config', 'opencode', 'skills');
-      createNativeSkillWrappers(opencodeSkillsDir);
-      console.log(`  ${c.green('✓')} ${count} skills criados em ${opencodeSkillsDir}`);
+      symlinkNativeSkillWrappers(opencodeSkillsDir);
+      console.log(`  ${c.green('✓')} ${count} skill symlinks criados em ${opencodeSkillsDir}`);
     },
   },
 };
