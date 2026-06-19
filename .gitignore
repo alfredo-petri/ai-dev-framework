@@ -3,6 +3,7 @@ node_modules/
 .DS_Store
 
 # External tool artifacts
+.agent/
 .agents/
 .clinerules/
 .opencode/
