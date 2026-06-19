@@ -216,6 +216,27 @@ function createNativeSkillWrappers(skillsDir) {
   return created;
 }
 
+function createIDEWorkflowWrappers(dir) {
+  fs.mkdirSync(dir, { recursive: true });
+  let created = 0;
+  for (const wrapper of SKILL_WRAPPERS) {
+    const canonicalPath = path.join(FRAMEWORK_DIR, wrapper.file);
+    const content = [
+      '---',
+      `description: ${wrapper.description}`,
+      '---',
+      '',
+      `Read the full content of \`${canonicalPath}\` and follow its instructions exactly for the task provided by the user.`,
+      '',
+      `If \`${canonicalPath}\` does not exist, run \`ai-dev-framework install\` then \`ai-dev-framework link\` to restore the framework.`,
+      '',
+    ].join('\n');
+    fs.writeFileSync(path.join(dir, `${wrapper.name}.md`), content);
+    created++;
+  }
+  return created;
+}
+
 function removeNativeSkillWrappers(skillsDir) {
   for (const wrapper of SKILL_WRAPPERS) {
     const skillDir = path.join(skillsDir, wrapper.name);
@@ -284,6 +305,29 @@ const IDES = {
       console.log(`  ${c.green('✓')} ${target}`);
     },
   },
+  antigravityide: {
+    name: 'Antigravity IDE',
+    supportsGlobal: true,
+    detectGlobal: () =>
+      fs.existsSync('/Applications/Antigravity IDE.app') ||
+      fs.existsSync(path.join(os.homedir(), '.gemini', 'antigravity-ide')),
+    linkGlobal() {
+      const globalDir = path.join(os.homedir(), '.gemini', 'config', 'global_workflows');
+      const target = path.join(globalDir, 'ai-dev-framework.md');
+      injectBlock(target, frameworkBlock());
+      console.log(`  ${c.green('✓')} ${target}`);
+      const count = createIDEWorkflowWrappers(globalDir);
+      console.log(`  ${c.green('✓')} ${count} workflows criados em ${globalDir}`);
+    },
+    linkProject(projectDir) {
+      const rulesTarget = path.join(projectDir, '.agent', 'rules', 'ai-dev-framework.md');
+      injectBlock(rulesTarget, frameworkBlock());
+      console.log(`  ${c.green('✓')} ${rulesTarget}`);
+      const workflowsDir = path.join(projectDir, '.agent', 'workflows');
+      const count = createIDEWorkflowWrappers(workflowsDir);
+      console.log(`  ${c.green('✓')} ${count} workflows criados em ${workflowsDir}`);
+    },
+  },
 };
 
 // ─── Agent definitions ───────────────────────────────────────────────────────
@@ -346,6 +390,19 @@ const AGENTS = {
       const opencodeSkillsDir = path.join(os.homedir(), '.config', 'opencode', 'skills');
       createNativeSkillWrappers(opencodeSkillsDir);
       console.log(`  ${c.green('✓')} ${count} skills criados em ${opencodeSkillsDir}`);
+    },
+  },
+  antigravity: {
+    name: 'Antigravity CLI',
+    detect: () => commandExists('agy') || fs.existsSync(path.join(os.homedir(), '.gemini', 'antigravity-cli')),
+    link() {
+      const antigravityDir = path.join(os.homedir(), '.gemini', 'antigravity-cli');
+      const target = path.join(antigravityDir, 'AGENTS.md');
+      injectBlock(target, frameworkBlockWithContent());
+      console.log(`  ${c.green('✓')} ${target}`);
+      const skillsDir = path.join(antigravityDir, 'skills');
+      const count = createNativeSkillWrappers(skillsDir);
+      console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
     },
   },
 };
@@ -568,6 +625,8 @@ function uninstall() {
   if (fs.existsSync(opencodeSkillsDir)) removeNativeSkillWrappers(opencodeSkillsDir);
   const opencodeNativeSkillsDir = path.join(os.homedir(), '.config', 'opencode', 'skills');
   if (fs.existsSync(opencodeNativeSkillsDir)) removeNativeSkillWrappers(opencodeNativeSkillsDir);
+  const antigravitySkillsDir = path.join(os.homedir(), '.gemini', 'antigravity-cli', 'skills');
+  if (fs.existsSync(antigravitySkillsDir)) removeNativeSkillWrappers(antigravitySkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`${c.green('✓')} Removed ${FRAMEWORK_DIR}`);
   console.log(`${c.green('✓')} Slash commands removed from ${claudeDir}/commands`);
@@ -575,6 +634,7 @@ function uninstall() {
   console.log(`${c.green('✓')} Skills removed from ${copilotSkillsDir}`);
   console.log(`${c.green('✓')} Skills removed from ${opencodeSkillsDir}`);
   console.log(`${c.green('✓')} Skills removed from ${opencodeNativeSkillsDir}`);
+  console.log(`${c.green('✓')} Skills removed from ${antigravitySkillsDir}`);
 }
 
 function inject(args) {
@@ -637,12 +697,14 @@ CLI Agents (link):
   copilot          GitHub Copilot CLI  (~/.copilot/skills/)
   gemini           Gemini CLI  (~/.gemini/GEMINI.md)
   opencode         opencode  (~/.agents/skills/)
+  antigravity      Antigravity CLI  (~/.gemini/antigravity-cli/AGENTS.md + skills/)
   --all            All detected agents (default)
 
 IDEs (inject):
   copilot          VS Code + GitHub Copilot  (.github/copilot-instructions.md)
   cursor           Cursor  (.cursor/rules/ai-dev-framework.mdc)
   windsurf         Windsurf  (.windsurfrules)
+  antigravityide   Antigravity IDE  (.agent/rules/ai-dev-framework.md)
 
 Examples:
   ai-dev-framework install

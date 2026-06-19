@@ -21,6 +21,7 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 | `link copilot` | GitHub Copilot CLI (`copilot` binary) | 24 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
 | `link opencode` | opencode | 24 skills em `~/.agents/skills/` |
+| `link antigravity` | Antigravity CLI (`agy`) | `~/.gemini/antigravity-cli/AGENTS.md` + 24 skills em `~/.gemini/antigravity-cli/skills/` |
 | `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
 
 `link --all` também injeta automaticamente a config global nas IDEs detectadas (Cursor e Windsurf), sem necessidade de rodar `inject --global` separado.
@@ -48,6 +49,7 @@ ai-dev-framework inject --global windsurf
 | VS Code + GitHub Copilot | project | `.github/copilot-instructions.md` |
 | Cursor | project + global | `.cursor/rules/ai-dev-framework.mdc` |
 | Windsurf | project + global | `.windsurfrules` / `~/.codeium/windsurf/memories/global_rules.md` |
+| Antigravity IDE | project + global | `.agent/rules/ai-dev-framework.md` / `~/.gemini/antigravity-ide/global_workflows/ai-dev-framework.md` |
 
 ### Comandos disponíveis
 
