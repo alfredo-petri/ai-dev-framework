@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.7.0
+
+### CLI
+
+- Novo agente `antigravity` — `link antigravity` injeta o framework em `~/.gemini/antigravity-cli/AGENTS.md` e instala 24 skills em `~/.gemini/antigravity-cli/skills/`
+- `link --all` agora detecta e linka o Antigravity CLI quando `agy` está no PATH ou `~/.gemini/antigravity-cli/` existe
+- `uninstall` agora remove skills instaladas em `~/.gemini/antigravity-cli/skills/`
+- `help` atualizado com `antigravity` na lista de CLI agents
+- Novo IDE `antigravityide` — `inject antigravityide` injeta o framework em `.agent/rules/ai-dev-framework.md` (projeto) e `~/.gemini/antigravity-ide/global_workflows/ai-dev-framework.md` (global); detectado via `/Applications/Antigravity IDE.app` ou `~/.gemini/antigravity-ide/`
+- `inject antigravityide` e `inject --global antigravityide` também instalam 25 workflow wrappers em `.agent/workflows/` e `~/.gemini/antigravity-ide/global_workflows/` respectivamente, habilitando slash commands no Antigravity IDE
+
+### Docs
+
+- README: Antigravity CLI adicionado na tabela de CLI agents suportados
+
 ## v1.6.4
 
 ### CLI
