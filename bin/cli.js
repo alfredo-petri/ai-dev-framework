@@ -343,6 +343,9 @@ const AGENTS = {
       const skillsDir = path.join(os.homedir(), '.agents', 'skills');
       const count = createNativeSkillWrappers(skillsDir);
       console.log(`  ${c.green('✓')} ${count} skills criados em ${skillsDir}`);
+      const opencodeSkillsDir = path.join(os.homedir(), '.config', 'opencode', 'skills');
+      createNativeSkillWrappers(opencodeSkillsDir);
+      console.log(`  ${c.green('✓')} ${count} skills criados em ${opencodeSkillsDir}`);
     },
   },
 };
@@ -563,12 +566,15 @@ function uninstall() {
   if (fs.existsSync(copilotSkillsDir)) removeNativeSkillWrappers(copilotSkillsDir);
   const opencodeSkillsDir = path.join(os.homedir(), '.agents', 'skills');
   if (fs.existsSync(opencodeSkillsDir)) removeNativeSkillWrappers(opencodeSkillsDir);
+  const opencodeNativeSkillsDir = path.join(os.homedir(), '.config', 'opencode', 'skills');
+  if (fs.existsSync(opencodeNativeSkillsDir)) removeNativeSkillWrappers(opencodeNativeSkillsDir);
   fs.rmSync(FRAMEWORK_DIR, { recursive: true, force: true });
   console.log(`${c.green('✓')} Removed ${FRAMEWORK_DIR}`);
   console.log(`${c.green('✓')} Slash commands removed from ${claudeDir}/commands`);
   console.log(`${c.green('✓')} Skills removed from ${codexSkillsDir}`);
   console.log(`${c.green('✓')} Skills removed from ${copilotSkillsDir}`);
   console.log(`${c.green('✓')} Skills removed from ${opencodeSkillsDir}`);
+  console.log(`${c.green('✓')} Skills removed from ${opencodeNativeSkillsDir}`);
 }
 
 function inject(args) {

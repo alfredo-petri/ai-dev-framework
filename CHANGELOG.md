@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.6.4
+
+### CLI
+
+- `link opencode` agora instala as 24 skills também em `~/.config/opencode/skills/`, garantindo compatibilidade com o opencode que lê skills neste diretório nativo além de `~/.agents/skills/`
+- `uninstall` agora remove skills de `~/.config/opencode/skills/` além dos demais diretórios
+
 ## v1.6.3
 
 ### CLI
