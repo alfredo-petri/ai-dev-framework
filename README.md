@@ -16,11 +16,11 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 
 | Comando | Agent | Config injetada |
 |---------|-------|-----------------|
-| `link claude` | Claude Code | `~/.claude/CLAUDE.md` + 24 slash commands em `~/.claude/commands/` |
-| `link codex` | OpenAI Codex CLI | `~/.codex/AGENTS.md` + 24 skills em `~/.codex/skills/` |
-| `link copilot` | GitHub Copilot CLI (`copilot` binary) | 24 skills em `~/.copilot/skills/` |
+| `link claude` | Claude Code | `~/.claude/CLAUDE.md` + 26 slash commands em `~/.claude/commands/` |
+| `link codex` | OpenAI Codex CLI | `~/.codex/AGENTS.md` + 26 skills em `~/.codex/skills/` |
+| `link copilot` | GitHub Copilot CLI (`copilot` binary) | 26 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
-| `link opencode` | opencode | 24 skills em `~/.agents/skills/` |
+| `link opencode` | opencode | 26 skills em `~/.agents/skills/` |
 | `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
 
 `link --all` também injeta automaticamente a config global nas IDEs detectadas (Cursor e Windsurf), sem necessidade de rodar `inject --global` separado.
@@ -474,6 +474,31 @@ Requer confirmação explícita. Executa `ai-dev-framework update`, reinstala ar
 
 ---
 
+### project-init
+
+Inicializa a infraestrutura de contexto AI em um projeto.
+
+```
+/ai-df-skill-project-init
+```
+
+Cria `AGENTS.md`, `constitution.md`, `components-registry.md` e `aicontext/` via entrevista guiada e detecção de stack.
+
+---
+
+### create-flowchart
+
+Cria diagramas Mermaid e viewers HTML interativos quando solicitado.
+
+```
+/ai-df-skill-create-flowchart
+criar um fluxograma Mermaid do fluxo de checkout com estados de erro
+```
+
+Gera Mermaid para fluxogramas, arquitetura, sequência, ERD, classes e Gantt. Quando há alvo HTML, integra controles de pan/zoom, resize, tela cheia, alternância código/diagrama, copiar fonte e link para Mermaid Live.
+
+---
+
 ## Tools
 
 Operações atômicas. Base da hierarquia — usadas por skills e sub-agents. No Claude Code, invocadas implicitamente; referencie diretamente quando necessário.
@@ -579,6 +604,8 @@ ai-dev-framework/
 │   ├── open-github-issue.md
 │   ├── close-github-issue.md
 │   ├── open-framework-issue.md
+│   ├── project-init.md
+│   ├── create-flowchart.md
 │   ├── search-update.md
 │   └── update.md
 ├── templates/                       # Templates para specs
@@ -598,7 +625,7 @@ ai-dev-framework/
 
 ## Skills no opencode
 
-Após `ai-dev-framework link opencode`, 24 skills ficam disponíveis em `~/.agents/skills/`:
+Após `ai-dev-framework link opencode`, 26 skills ficam disponíveis em `~/.agents/skills/`:
 
 ```
 ai-df-agent-bugfix
@@ -625,6 +652,8 @@ ai-df-skill-commit-changes
 ai-df-skill-open-github-issue
 ai-df-skill-close-github-issue
 ai-df-skill-open-framework-issue
+ai-df-skill-project-init
+ai-df-skill-create-flowchart
 ai-df-skill-search-update
 ai-df-skill-update
 ```
@@ -633,7 +662,7 @@ O opencode carrega automaticamente skills de `~/.agents/skills/` — nenhuma con
 
 ## Slash commands no Claude Code
 
-Após `ai-dev-framework link claude`, 24 slash commands ficam disponíveis:
+Após `ai-dev-framework link claude`, 26 slash commands ficam disponíveis:
 
 ```
 /ai-df-agent-bugfix
@@ -660,6 +689,8 @@ Após `ai-dev-framework link claude`, 24 slash commands ficam disponíveis:
 /ai-df-skill-open-github-issue
 /ai-df-skill-close-github-issue
 /ai-df-skill-open-framework-issue
+/ai-df-skill-project-init
+/ai-df-skill-create-flowchart
 /ai-df-skill-search-update
 /ai-df-skill-update
 ```

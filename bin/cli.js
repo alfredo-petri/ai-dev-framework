@@ -165,6 +165,7 @@ const SKILL_WRAPPERS = [
   { name: 'ai-df-skill-search-update',              file: 'skills/search-update.md',              description: 'Search update skill — checks for available framework updates once per session.' },
   { name: 'ai-df-skill-update',                     file: 'skills/update.md',                     description: 'Update skill — updates the ai-dev-framework to the latest version after user approval.' },
   { name: 'ai-df-skill-project-init',               file: 'skills/project-init.md',               description: 'Project init skill — bootstraps AI context infrastructure (AGENTS.md, constitution.md, components-registry.md, aicontext/) by interviewing the user about the project.' },
+  { name: 'ai-df-skill-create-flowchart',           file: 'skills/create-flowchart.md',           description: 'Create flowchart skill — creates Mermaid flowcharts, architecture diagrams, sequence diagrams and optional interactive HTML viewers.' },
 ];
 
 function createSkillWrappers(claudeDir) {

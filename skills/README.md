@@ -19,6 +19,8 @@ Capabilities compostas e reutilizáveis. Usadas por agents e sub-agents para exe
 | `close-github-issue` | Comenta resumo e fecha a issue ao concluir implementação | Agents — último passo após commit-changes |
 | `search-update` | Verifica atualizações disponíveis (uma vez por sessão) | Primeiro uso de qualquer recurso do framework |
 | `update` | Atualiza framework para a versão mais recente | Após `search-update` com aprovação do usuário |
+| `project-init` | Inicializa infraestrutura de contexto AI em um projeto | Primeira configuração do projeto |
+| `create-flowchart` | Cria diagramas Mermaid e viewers HTML interativos | Pedidos de fluxograma, arquitetura, sequência ou fluxo |
 
 ## Hierarquia
 
