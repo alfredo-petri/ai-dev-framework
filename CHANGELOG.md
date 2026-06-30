@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.8.0
+
+### CLI
+
+- Novo agente `antigravity` — `link antigravity` injeta o framework em `~/.gemini/antigravity-cli/AGENTS.md` e cria 26 symlinks de skills em `~/.gemini/antigravity-cli/skills/`
+- Novo IDE `antigravityide` — `inject antigravityide` injeta regras em `.agent/rules/ai-dev-framework.md` e cria 26 workflow wrappers em `.agent/workflows/`
+- `inject --global antigravityide` injeta regras e workflows em `~/.gemini/antigravity-ide/global_workflows/`
+- `link --all`, `inject --global`, `status`, `help` e `uninstall` agora reconhecem Antigravity quando detectado
+
+### Docs
+
+- Conteúdo do PR #2 de @ildopetrijunior adaptado ao estado atual do repo: contagem 26, release posterior a `v1.7.0` e padrão de symlinks pós `v1.6.5`
+- Adicionada spec auditável em `specs/001-antigravity-support/`
+
 ## v1.7.0
 
 ### Skills

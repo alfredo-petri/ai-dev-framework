@@ -1,6 +1,6 @@
 {
   "name": "@alfredo-petri/ai-dev-framework",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "Portable AI development framework — agents, sub-agents, skills and tools for AI-assisted development",
   "bin": {
     "ai-dev-framework": "bin/cli.js"
@@ -29,6 +29,7 @@
     "copilot",
     "gemini",
     "opencode",
+    "antigravity",
     "llm",
     "ai-agents",
     "development-framework"
