@@ -21,9 +21,10 @@ Instala o framework em `~/.ai-dev-framework/` e injeta referência automática n
 | `link copilot` | GitHub Copilot CLI (`copilot` binary) | 26 skills em `~/.copilot/skills/` |
 | `link gemini` | Gemini CLI | `~/.gemini/GEMINI.md` |
 | `link opencode` | opencode | 26 skills em `~/.agents/skills/` |
+| `link antigravity` | Antigravity CLI (`agy`) | `~/.gemini/antigravity-cli/AGENTS.md` + 26 skills em `~/.gemini/antigravity-cli/skills/` |
 | `link --all` | Todos os CLI agents detectados + IDEs globais detectadas | — |
 
-`link --all` também injeta automaticamente a config global nas IDEs detectadas (Cursor e Windsurf), sem necessidade de rodar `inject --global` separado.
+`link --all` também injeta automaticamente a config global nas IDEs detectadas (Cursor, Windsurf e Antigravity IDE), sem necessidade de rodar `inject --global` separado.
 
 ### IDE plugins
 
@@ -37,10 +38,12 @@ ai-dev-framework inject
 ai-dev-framework inject cursor
 ai-dev-framework inject copilot
 ai-dev-framework inject windsurf
+ai-dev-framework inject antigravityide
 
 # config global (onde suportado)
 ai-dev-framework inject --global
 ai-dev-framework inject --global windsurf
+ai-dev-framework inject --global antigravityide
 ```
 
 | IDE | Escopo | Arquivo gerado |
@@ -48,6 +51,9 @@ ai-dev-framework inject --global windsurf
 | VS Code + GitHub Copilot | project | `.github/copilot-instructions.md` |
 | Cursor | project + global | `.cursor/rules/ai-dev-framework.mdc` |
 | Windsurf | project + global | `.windsurfrules` / `~/.codeium/windsurf/memories/global_rules.md` |
+| Antigravity IDE | project + global | `.agent/rules/ai-dev-framework.md` + `.agent/workflows/` / `~/.gemini/antigravity-ide/global_workflows/` |
+
+Suporte ao Antigravity CLI e Antigravity IDE baseado no PR #2 de @ildopetrijunior, adaptado ao fluxo atual de 26 wrappers e symlinks do framework.
 
 ### Comandos disponíveis
 
@@ -55,9 +61,11 @@ ai-dev-framework inject --global windsurf
 ai-dev-framework install              # instala framework em ~/.ai-dev-framework/
 ai-dev-framework link --all           # linka a todos os CLI agents detectados
 ai-dev-framework link claude          # linka apenas ao Claude Code
+ai-dev-framework link antigravity     # linka apenas ao Antigravity CLI
 ai-dev-framework inject               # injeta em todas as IDEs no projeto atual
 ai-dev-framework inject --global      # injeta na config global das IDEs detectadas
 ai-dev-framework inject cursor        # injeta apenas no Cursor (projeto atual)
+ai-dev-framework inject antigravityide # injeta apenas no Antigravity IDE (projeto atual)
 ai-dev-framework check-update         # verifica atualizações no GitHub
 ai-dev-framework update               # atualiza para a versão mais recente
 ai-dev-framework status               # mostra estado da instalação, CLI agents e IDEs
