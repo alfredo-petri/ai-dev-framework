@@ -1,5 +1,17 @@
 # Changelog
 
+## v1.7.0
+
+### Skills
+
+- Nova skill `create-flowchart` para criar diagramas Mermaid e viewers HTML interativos com pan/zoom, resize, tela cheia, alternância código/diagrama, cópia de fonte e link para Mermaid Live
+- Slash command registrado: `/ai-df-skill-create-flowchart` (total: 26 slash commands)
+
+### CLI / Docs
+
+- `SKILL_WRAPPERS` atualizado para distribuir `ai-df-skill-create-flowchart` em Claude, Codex, Copilot e opencode
+- README atualizado com contagem real de 26 skills/slash commands e inclusão de `project-init` nas listas públicas
+
 ## v1.6.5
 
 ### CLI
